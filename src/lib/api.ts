@@ -20,4 +20,25 @@ export const api = {
     request("/auth/login", { method: "POST", body: JSON.stringify(body) }),
   logout: () => request("/auth/logout", { method: "POST" }),
   me: () => request("/auth/me"),
+
+  createTeam: (body: {
+    name: string;
+    college: string;
+    track?: string;
+    problemStatement?: string;
+    ideaTitle?: string;
+    ideaDescription?: string;
+    hardwareNeeded?: boolean;
+    hardwareDetails?: string;
+  }) => request("/teams", { method: "POST", body: JSON.stringify(body) }),
+  joinTeam: (teamCode: string) =>
+    request("/teams/join", { method: "POST", body: JSON.stringify({ teamCode }) }),
+  getTeam: (teamId: string) => request(`/teams/${teamId}`),
+  updateTeam: (teamId: string, body: Record<string, unknown>) =>
+    request(`/teams/${teamId}`, { method: "PUT", body: JSON.stringify(body) }),
+  removeMember: (teamId: string, memberId: string) =>
+    request(`/teams/${teamId}/members/${memberId}`, { method: "DELETE" }),
+  deleteTeam: (teamId: string) => request(`/teams/${teamId}`, { method: "DELETE" }),
+  finalizeTeam: (teamId: string) => request(`/teams/${teamId}/finalize`, { method: "POST" }),
+  registrationStatus: () => request("/registration/status"),
 };
