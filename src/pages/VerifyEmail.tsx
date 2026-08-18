@@ -1,0 +1,36 @@
+import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { api } from "../lib/api";
+
+export default function VerifyEmail() {
+  const location = useLocation() as { state?: { email?: string } };
+  const [email, setEmail] = useState(location.state?.email || "");
+  const [otp, setOtp] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setError("");
+    try {
+      await api.verifyOtp({ email, otp });
+      navigate("/login");
+    } catch (err: any) {
+      setError(err.message);
+    }
+  }
+
+  return (
+    <div className="max-w-sm mx-auto px-6 py-16">
+      <h1 className="text-2xl font-bold mb-6">Verify your email</h1>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <input className="w-full border rounded px-3 py-2" placeholder="Email"
+          value={email} onChange={(e) => setEmail(e.target.value)} />
+        <input className="w-full border rounded px-3 py-2" placeholder="6-digit OTP"
+          value={otp} onChange={(e) => setOtp(e.target.value)} />
+        {error && <p className="text-red-600 text-sm">{error}</p>}
+        <button className="w-full bg-slate-900 text-white rounded px-3 py-2">Verify</button>
+      </form>
+    </div>
+  );
+}
