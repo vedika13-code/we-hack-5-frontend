@@ -59,4 +59,29 @@ export const api = {
   deleteTeam: (teamId: string) => request(`/teams/${teamId}`, { method: "DELETE" }),
   finalizeTeam: (teamId: string) => request(`/teams/${teamId}/finalize`, { method: "POST" }),
   registrationStatus: () => request("/registration/status"),
+
+  getMySubmission: () => request("/submissions/me"),
+  submitLink: (projectLink: string) =>
+    request("/submissions/link", { method: "POST", body: JSON.stringify({ projectLink }) }),
+  updateChecklist: (checklist: Record<string, boolean>) =>
+    request("/submissions/checklist", { method: "PUT", body: JSON.stringify(checklist) }),
+  uploadSubmissionFile: async (file: File) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    const headers: Record<string, string> = {};
+    if (authToken) headers["Authorization"] = `Bearer ${authToken}`;
+    const res = await fetch(`${API_URL}/submissions/file`, {
+      method: "POST",
+      credentials: "include",
+      headers,
+      body: formData,
+    });
+    const data = await res.json().catch(() => null);
+    if (!res.ok) throw new Error(data?.error || "Upload failed");
+    return data;
+  },
+
+  getNotifications: () => request("/notifications"),
+  markNotificationRead: (id: string) => request(`/notifications/${id}/read`, { method: "PUT" }),
+  markAllNotificationsRead: () => request("/notifications/read-all", { method: "PUT" }),
 };
