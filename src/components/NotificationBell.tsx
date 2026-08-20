@@ -32,9 +32,11 @@ export function NotificationBell() {
   }, []);
 
   async function handleOpen() {
-    setOpen(!open);
-    if (!open && unreadCount > 0) {
-      await api.markAllNotificationsRead();
+    const opening = !open;
+    setOpen(opening);
+    if (opening) {
+      await load();
+      if (unreadCount > 0) await api.markAllNotificationsRead();
       setUnreadCount(0);
     }
   }

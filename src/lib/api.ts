@@ -1,5 +1,9 @@
 const API_URL = import.meta.env.VITE_API_URL;
 
+// In-memory + localStorage: memory for speed during the session, localStorage
+// so the login survives a page refresh. Cross-domain cookies are blocked by
+// modern browsers' third-party cookie policies, so this header-based approach
+// is what actually works for a split Vercel/Render deployment.
 let authToken: string | null = localStorage.getItem("authToken");
 
 export function setAuthToken(token: string | null) {
@@ -84,4 +88,20 @@ export const api = {
   getNotifications: () => request("/notifications"),
   markNotificationRead: (id: string) => request(`/notifications/${id}/read`, { method: "PUT" }),
   markAllNotificationsRead: () => request("/notifications/read-all", { method: "PUT" }),
+
+  getAdminDashboard: () => request("/admin/dashboard"),
+  getAdminTeams: (params: { search?: string; page?: number } = {}) => {
+    const qs = new URLSearchParams();
+    if (params.search) qs.set("search", params.search);
+    if (params.page) qs.set("page", String(params.page));
+    return request(`/admin/teams?${qs.toString()}`);
+  },
+  getAdminTeamDetail: (teamId: string) => request(`/admin/teams/${teamId}`),
+  setTeamStatus: (teamId: string, status: "SUBMITTED" | "APPROVED" | "REJECTED") =>
+    request(`/admin/teams/${teamId}/status`, { method: "PUT", body: JSON.stringify({ status }) }),
+  setTeamShortlist: (teamId: string, shortlisted: boolean) =>
+    request(`/admin/teams/${teamId}/shortlist`, { method: "PUT", body: JSON.stringify({ shortlisted }) }),
+  emailTeam: (teamId: string, subject: string, message: string) =>
+    request(`/admin/teams/${teamId}/email`, { method: "POST", body: JSON.stringify({ subject, message }) }),
+  deleteAdminTeam: (teamId: string) => request(`/admin/teams/${teamId}`, { method: "DELETE" }),
 };
