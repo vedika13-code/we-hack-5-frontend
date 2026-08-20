@@ -1,9 +1,20 @@
 const API_URL = import.meta.env.VITE_API_URL;
 
+let authToken: string | null = localStorage.getItem("authToken");
+
+export function setAuthToken(token: string | null) {
+  authToken = token;
+  if (token) localStorage.setItem("authToken", token);
+  else localStorage.removeItem("authToken");
+}
+
 async function request(path: string, options: RequestInit = {}) {
+  const headers: Record<string, string> = { "Content-Type": "application/json" };
+  if (authToken) headers["Authorization"] = `Bearer ${authToken}`;
+
   const res = await fetch(`${API_URL}${path}`, {
     credentials: "include",
-    headers: { "Content-Type": "application/json" },
+    headers: { ...headers, ...(options.headers as Record<string, string>) },
     ...options,
   });
   const data = await res.json().catch(() => null);
@@ -16,9 +27,16 @@ export const api = {
     request("/auth/register", { method: "POST", body: JSON.stringify(body) }),
   verifyOtp: (body: { email: string; otp: string }) =>
     request("/auth/verify-otp", { method: "POST", body: JSON.stringify(body) }),
-  login: (body: { email: string; password: string }) =>
-    request("/auth/login", { method: "POST", body: JSON.stringify(body) }),
-  logout: () => request("/auth/logout", { method: "POST" }),
+  login: async (body: { email: string; password: string }) => {
+    const result = await request("/auth/login", { method: "POST", body: JSON.stringify(body) });
+    if (result.token) setAuthToken(result.token);
+    return result;
+  },
+  logout: async () => {
+    const result = await request("/auth/logout", { method: "POST" });
+    setAuthToken(null);
+    return result;
+  },
   me: () => request("/auth/me"),
 
   createTeam: (body: {
