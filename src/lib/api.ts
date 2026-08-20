@@ -1,9 +1,5 @@
 const API_URL = import.meta.env.VITE_API_URL;
 
-// In-memory + localStorage: memory for speed during the session, localStorage
-// so the login survives a page refresh. Cross-domain cookies are blocked by
-// modern browsers' third-party cookie policies, so this header-based approach
-// is what actually works for a split Vercel/Render deployment.
 let authToken: string | null = localStorage.getItem("authToken");
 
 export function setAuthToken(token: string | null) {
@@ -104,4 +100,11 @@ export const api = {
   emailTeam: (teamId: string, subject: string, message: string) =>
     request(`/admin/teams/${teamId}/email`, { method: "POST", body: JSON.stringify({ subject, message }) }),
   deleteAdminTeam: (teamId: string) => request(`/admin/teams/${teamId}`, { method: "DELETE" }),
+
+  getSponsors: () => request("/sponsors"),
+  getJudges: () => request("/judges"),
+  getMentors: () => request("/mentors"),
+  getLeaderboard: () => request("/leaderboard"),
+  getDeadlines: () => request("/deadlines"),
+  getAnnouncements: () => request("/announcements"),
 };
