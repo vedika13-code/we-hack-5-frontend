@@ -99,10 +99,25 @@ export const api = {
     request(`/admin/teams/${teamId}/email`, { method: "POST", body: JSON.stringify({ subject, message }) }),
   deleteAdminTeam: (teamId: string) => request(`/admin/teams/${teamId}`, { method: "DELETE" }),
 
-  getSponsors: () => request("/sponsors"),
+    getSponsors: () => request("/sponsors"),
   getJudges: () => request("/judges"),
   getMentors: () => request("/mentors"),
   getLeaderboard: () => request("/leaderboard"),
   getDeadlines: () => request("/deadlines"),
   getAnnouncements: () => request("/announcements"),
+
+  getAdminSponsors: () => request("/admin/sponsors"),
+  createSponsor: (body: { name: string; logoUrl: string; tier: string; link: string; order?: number }) =>
+    request("/admin/sponsors", { method: "POST", body: JSON.stringify(body) }),
+  updateSponsor: (id: string, body: Partial<{ name: string; logoUrl: string; tier: string; link: string; order: number }>) =>
+    request(`/admin/sponsors/${id}`, { method: "PUT", body: JSON.stringify(body) }),
+  deleteSponsor: (id: string) => request(`/admin/sponsors/${id}`, { method: "DELETE" }),
+
+  setDeadline: (key: string, dueAt: string) =>
+    request("/deadlines", { method: "PUT", body: JSON.stringify({ key, dueAt }) }),
+  extendDeadline: (key: string, extendedTo: string) =>
+    request(`/deadlines/${key}/extend`, { method: "PUT", body: JSON.stringify({ extendedTo }) }),
+
+  createAnnouncement: (title: string, body: string) =>
+    request("/announcements", { method: "POST", body: JSON.stringify({ title, body }) }),
 };

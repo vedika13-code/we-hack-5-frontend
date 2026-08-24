@@ -22,7 +22,8 @@ export default function Home() {
       <section className="max-w-3xl mx-auto px-6 py-20 text-center">
         <h1 className="text-5xl font-bold mb-4">WE HACK 5.0</h1>
         <p className="text-lg text-slate-600 mb-8">
-          A hackathon for builders. Form a team, pick a track, and ship something real.
+          A 36-hour hackathon where engineers from every branch build real solutions to real problems —
+          not just software, not just CS.
         </p>
         {deadline && (
           <p className="text-sm text-slate-500 mb-6">
@@ -36,16 +37,16 @@ export default function Home() {
 
       <section className="max-w-4xl mx-auto px-6 py-12 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
         <div>
-          <p className="text-3xl font-bold">100+</p>
+          <p className="text-3xl font-bold">200+</p>
           <p className="text-sm text-slate-500">Participants</p>
         </div>
         <div>
-          <p className="text-3xl font-bold">24h</p>
+          <p className="text-3xl font-bold">36h</p>
           <p className="text-sm text-slate-500">Duration</p>
         </div>
         <div>
-          <p className="text-3xl font-bold">5+</p>
-          <p className="text-sm text-slate-500">Tracks</p>
+          <p className="text-3xl font-bold">4</p>
+          <p className="text-sm text-slate-500">Cross-domain themes</p>
         </div>
         <div>
           <p className="text-3xl font-bold">In-person</p>
