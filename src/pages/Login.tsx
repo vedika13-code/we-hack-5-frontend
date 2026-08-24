@@ -32,6 +32,9 @@ export default function Login() {
       <p className="text-sm text-slate-500 mt-4">
         <Link to="/forgot-password">Forgot password?</Link>
       </p>
+      <p className="text-sm text-slate-500 mt-2">
+        Don't have an account? <Link to="/signup" className="underline">Sign up</Link>
+      </p>
     </div>
   );
 }

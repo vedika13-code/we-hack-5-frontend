@@ -25,10 +25,8 @@ async function request(path: string, options: RequestInit = {}) {
 export const api = {
   register: (body: { email: string; password: string; fullName: string }) =>
     request("/auth/register", { method: "POST", body: JSON.stringify(body) }),
-  verifyOtp: (body: { email: string; otp: string }) =>
-    request("/auth/verify-otp", { method: "POST", body: JSON.stringify(body) }),
-  login: async (body: { email: string; password: string }) => {
-    const result = await request("/auth/login", { method: "POST", body: JSON.stringify(body) });
+   verifyOtp: async (body: { email: string; otp: string }) => {
+    const result = await request("/auth/verify-otp", { method: "POST", body: JSON.stringify(body) });
     if (result.token) setAuthToken(result.token);
     return result;
   },

@@ -14,7 +14,7 @@ export default function VerifyEmail() {
     setError("");
     try {
       await api.verifyOtp({ email, otp });
-      navigate("/login");
+      navigate("/dashboard");
     } catch (err: any) {
       setError(err.message);
     }
