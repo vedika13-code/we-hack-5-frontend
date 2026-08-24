@@ -31,13 +31,13 @@ import AdminAnnouncements from "./pages/admin/Announcements";
 import AdminDeadlines from "./pages/admin/Deadlines";
 import AdminShortlist from "./pages/admin/Shortlist";
 import AdminSponsors from "./pages/admin/Sponsors";
+import ManageAdmins from "./pages/admin/ManageAdmins";
 
 export default function App() {
   return (
     <BrowserRouter>
       <Navbar />
       <Routes>
-        {/* Public */}
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/timeline" element={<Timeline />} />
@@ -46,14 +46,12 @@ export default function App() {
         <Route path="/mentors" element={<Mentors />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
 
-        {/* Auth */}
         <Route path="/signup" element={<Signup />} />
         <Route path="/verify-email" element={<VerifyEmail />} />
         <Route path="/login" element={<Login />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
 
-        {/* Participant (protected) */}
         <Route element={<ProtectedRoute />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/profile" element={<Profile />} />
@@ -62,8 +60,7 @@ export default function App() {
           <Route path="/submission" element={<Submission />} />
         </Route>
 
-        {/* Admin (protected + role-gated) */}
-        <Route element={<ProtectedRoute role="ADMIN" />}>
+        <Route element={<ProtectedRoute roles={["ADMIN", "SUPER_ADMIN"]} />}>
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/admin/teams" element={<AdminTeams />} />
           <Route path="/admin/participants" element={<AdminParticipants />} />
@@ -72,6 +69,10 @@ export default function App() {
           <Route path="/admin/deadlines" element={<AdminDeadlines />} />
           <Route path="/admin/shortlist" element={<AdminShortlist />} />
           <Route path="/admin/sponsors" element={<AdminSponsors />} />
+        </Route>
+
+        <Route element={<ProtectedRoute roles={["SUPER_ADMIN"]} />}>
+          <Route path="/admin/manage-admins" element={<ManageAdmins />} />
         </Route>
       </Routes>
       <Footer />

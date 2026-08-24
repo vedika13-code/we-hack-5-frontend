@@ -11,8 +11,12 @@ export default function Login() {
     e.preventDefault();
     setError("");
     try {
-      await api.login(form);
-      navigate("/dashboard");
+      const user = await api.login(form);
+      if (user.role === "ADMIN" || user.role === "SUPER_ADMIN") {
+        navigate("/admin");
+      } else {
+        navigate("/dashboard");
+      }
     } catch (err: any) {
       setError(err.message);
     }
