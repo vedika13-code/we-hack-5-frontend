@@ -2,6 +2,37 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { api } from "../lib/api";
 
+const FAQS = [
+  {
+    q: "When will the problem statements be released?",
+    a: "Problem statements will be released on the day of the hackathon before 8AM.",
+  },
+  {
+    q: "5th September is a working day for freshers, will OD be given for the same?",
+    a: "Yes, On-Duty for Saturday classes for freshers will be provided.",
+  },
+  {
+    q: "I don't have a team yet, can I still register?",
+    a: "Yes, you can still register. We have something exciting coming up for helping everyone find teammates. Keep an eye on our Instagram page for the same.",
+  },
+  {
+    q: "Will refreshments be provided during the hackathon?",
+    a: "Refreshments will be provided during the hackathon.",
+  },
+  {
+    q: "What all do we have to bring to the venue?",
+    a: "Bring your laptops, chargers, and any other electronic devices you may require during the hack.",
+  },
+  {
+    q: "If we choose the Hardware Track will the hardware components be provided?",
+    a: "TBD.",
+  },
+  {
+    q: "External Participants — accommodation details?",
+    a: "For male participants: AC accommodation with mattresses, buckets, mugs, pillows, and temporary Wi-Fi access will be provided.\nFor female participants: Non-AC accommodation with mattresses, buckets, mugs, and temporary Wi-Fi access will be provided.",
+  },
+];
+
 export default function Home() {
   const [sponsors, setSponsors] = useState<any[]>([]);
   const [deadline, setDeadline] = useState<string | null>(null);
@@ -66,6 +97,18 @@ export default function Home() {
           </div>
         </section>
       )}
+
+      <section className="max-w-3xl mx-auto px-6 py-12">
+        <h2 className="text-2xl font-bold mb-6 text-center">FAQs</h2>
+        <div className="space-y-4">
+          {FAQS.map((faq, i) => (
+            <details key={i} className="border rounded p-4">
+              <summary className="font-medium cursor-pointer">{faq.q}</summary>
+              <p className="text-slate-600 mt-2 whitespace-pre-line">{faq.a}</p>
+            </details>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }
