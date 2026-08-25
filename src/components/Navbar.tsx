@@ -38,6 +38,10 @@ export function Navbar() {
           <Link to="/leaderboard" className="block px-4 py-2 hover:bg-slate-50">Leaderboard</Link>
         </Dropdown>
 
+        {user && !isAdmin && !user.teamId && (
+          <Link to="/registration" className="font-semibold text-slate-900">Register Team</Link>
+        )}
+
         {user && !isAdmin && (
           <>
             <Link to="/team">Team</Link>
