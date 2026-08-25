@@ -25,8 +25,13 @@ async function request(path: string, options: RequestInit = {}) {
 export const api = {
   register: (body: { email: string; password: string; fullName: string }) =>
     request("/auth/register", { method: "POST", body: JSON.stringify(body) }),
-   verifyOtp: async (body: { email: string; otp: string }) => {
+  verifyOtp: async (body: { email: string; otp: string }) => {
     const result = await request("/auth/verify-otp", { method: "POST", body: JSON.stringify(body) });
+    if (result.token) setAuthToken(result.token);
+    return result;
+  },
+  login: async (body: { email: string; password: string }) => {
+    const result = await request("/auth/login", { method: "POST", body: JSON.stringify(body) });
     if (result.token) setAuthToken(result.token);
     return result;
   },
@@ -99,7 +104,7 @@ export const api = {
     request(`/admin/teams/${teamId}/email`, { method: "POST", body: JSON.stringify({ subject, message }) }),
   deleteAdminTeam: (teamId: string) => request(`/admin/teams/${teamId}`, { method: "DELETE" }),
 
-    getSponsors: () => request("/sponsors"),
+  getSponsors: () => request("/sponsors"),
   getJudges: () => request("/judges"),
   getMentors: () => request("/mentors"),
   getLeaderboard: () => request("/leaderboard"),
@@ -120,4 +125,16 @@ export const api = {
 
   createAnnouncement: (title: string, body: string) =>
     request("/announcements", { method: "POST", body: JSON.stringify({ title, body }) }),
+
+  getAdmins: () => request("/admin/admins"),
+  promoteToAdmin: (email: string) =>
+    request("/admin/admins", { method: "POST", body: JSON.stringify({ email }) }),
+  demoteAdmin: (userId: string) => request(`/admin/admins/${userId}`, { method: "DELETE" }),
+
+  getAdminSubmissions: (params: { search?: string; page?: number } = {}) => {
+    const qs = new URLSearchParams();
+    if (params.search) qs.set("search", params.search);
+    if (params.page) qs.set("page", String(params.page));
+    return request(`/admin/submissions?${qs.toString()}`);
+  },
 };
