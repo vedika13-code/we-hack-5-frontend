@@ -1,10 +1,18 @@
 import { useEffect, useState } from "react";
 import { api } from "../../lib/api";
+import { AdminShell } from "./components/AdminShell";
+import { AdminPageHeader } from "./components/AdminPageHeader";
+import { ErrorState, EmptyState } from "./components/FeedbackStates";
+import { ConfirmDialog } from "./components/ConfirmDialog";
 
 export default function MentorsAdmin() {
   const [mentors, setMentors] = useState<any[]>([]);
   const [error, setError] = useState("");
   const [form, setForm] = useState({ name: "", photoUrl: "", expertise: "" });
+  const [loading, setLoading] = useState(false);
+
+  const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [isBusy, setIsBusy] = useState(false);
 
   async function load() {
     try {
@@ -21,56 +29,97 @@ export default function MentorsAdmin() {
   async function handleCreate(e: React.FormEvent) {
     e.preventDefault();
     setError("");
+    setLoading(true);
     try {
       await api.createMentor(form);
       setForm({ name: "", photoUrl: "", expertise: "" });
       await load();
     } catch (err: any) {
       setError(err.message);
+    } finally {
+      setLoading(false);
     }
   }
 
-  async function handleDelete(id: string) {
+  async function handleConfirmDelete() {
+    if (!deleteId) return;
     setError("");
+    setIsBusy(true);
     try {
-      await api.deleteMentor(id);
+      await api.deleteMentor(deleteId);
       await load();
+      setDeleteId(null);
     } catch (err: any) {
       setError(err.message);
+    } finally {
+      setIsBusy(false);
     }
   }
 
   return (
-    <div className="max-w-3xl mx-auto px-6 py-12">
-      <h1 className="text-2xl font-bold mb-6">Manage Mentors</h1>
+    <AdminShell>
+      <AdminPageHeader
+        title="Mentors"
+        description="Manage the event's technical and design mentors."
+      />
 
-      {error && <p className="text-red-600 text-sm mb-4">{error}</p>}
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-12">
+        <div>
+          <h2 className="text-xl mb-6 font-display uppercase tracking-widest text-[var(--admin-paper)] border-b border-[var(--admin-line)] pb-2">Add Mentor</h2>
 
-      <form onSubmit={handleCreate} className="border rounded p-4 mb-6 space-y-3">
-        <h2 className="font-semibold">Add a mentor</h2>
-        <input className="w-full border rounded px-3 py-2" placeholder="Name" required
-          value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
-        <input className="w-full border rounded px-3 py-2" placeholder="Photo URL" required
-          value={form.photoUrl} onChange={(e) => setForm({ ...form, photoUrl: e.target.value })} />
-        <input className="w-full border rounded px-3 py-2" placeholder="Area of expertise" required
-          value={form.expertise} onChange={(e) => setForm({ ...form, expertise: e.target.value })} />
-        <button className="bg-slate-900 text-white rounded px-4 py-2">Add mentor</button>
-      </form>
+          {error && <ErrorState error={error} />}
 
-      <div className="border rounded divide-y">
-        {mentors.length === 0 && <p className="p-4 text-sm text-slate-500">No mentors yet.</p>}
-        {mentors.map((m) => (
-          <div key={m.id} className="flex items-center justify-between p-4">
+          <form onSubmit={handleCreate} className="admin-card flex flex-col gap-4">
             <div>
-              <p className="font-medium">{m.name}</p>
-              <p className="text-xs text-slate-500">{m.expertise}</p>
+              <label className="admin-label">Name</label>
+              <input className="admin-input" placeholder="Jamie Smith" required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
             </div>
-            <button onClick={() => handleDelete(m.id)} className="text-red-600 text-sm underline">
-              Delete
+            <div>
+              <label className="admin-label">Photo URL</label>
+              <input className="admin-input" placeholder="https://..." required value={form.photoUrl} onChange={(e) => setForm({ ...form, photoUrl: e.target.value })} />
+            </div>
+            <div>
+              <label className="admin-label">Area of Expertise</label>
+              <input className="admin-input" placeholder="Frontend, React, UI/UX" required value={form.expertise} onChange={(e) => setForm({ ...form, expertise: e.target.value })} />
+            </div>
+            <button type="submit" disabled={loading} className="admin-primary-action mt-4">
+              {loading ? "Adding..." : "Add Mentor"}
             </button>
-          </div>
-        ))}
+          </form>
+        </div>
+
+        <div>
+          <h2 className="text-xl mb-6 font-display uppercase tracking-widest text-[var(--admin-paper)] border-b border-[var(--admin-line)] pb-2">Registered Mentors</h2>
+
+          {mentors.length === 0 ? (
+            <EmptyState title="No Mentors" message="You haven't added any mentors yet." />
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {mentors.map((m) => (
+                <div key={m.id} className="admin-card !p-4 flex gap-4 items-center">
+                  <img src={m.photoUrl} alt={m.name} className="w-12 h-12 object-cover rounded-full border border-[var(--admin-line)] shrink-0" onError={(e) => (e.currentTarget.style.display = 'none')} />
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-bold text-[var(--admin-paper)] truncate">{m.name}</h3>
+                    <p className="text-xs text-[var(--admin-muted)] truncate my-1">{m.expertise}</p>
+                    <button onClick={() => setDeleteId(m.id)} className="admin-danger-action !h-6 !px-2 !text-[0.6rem] mt-1">Remove</button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+
+      <ConfirmDialog
+        isOpen={!!deleteId}
+        title="Remove Mentor"
+        message="Are you sure you want to remove this mentor?"
+        onConfirm={handleConfirmDelete}
+        onCancel={() => setDeleteId(null)}
+        confirmLabel="Yes, Remove"
+        isDestructive={true}
+        isBusy={isBusy}
+      />
+    </AdminShell>
   );
 }
