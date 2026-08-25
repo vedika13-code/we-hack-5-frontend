@@ -32,6 +32,8 @@ import AdminDeadlines from "./pages/admin/Deadlines";
 import AdminShortlist from "./pages/admin/Shortlist";
 import AdminSponsors from "./pages/admin/Sponsors";
 import ManageAdmins from "./pages/admin/ManageAdmins";
+import JudgesAdmin from "./pages/admin/JudgesAdmin";
+import MentorsAdmin from "./pages/admin/MentorsAdmin";
 
 export default function App() {
   return (
@@ -69,6 +71,8 @@ export default function App() {
           <Route path="/admin/deadlines" element={<AdminDeadlines />} />
           <Route path="/admin/shortlist" element={<AdminShortlist />} />
           <Route path="/admin/sponsors" element={<AdminSponsors />} />
+          <Route path="/admin/judges" element={<JudgesAdmin />} />
+          <Route path="/admin/mentors" element={<MentorsAdmin />} />
         </Route>
 
         <Route element={<ProtectedRoute roles={["SUPER_ADMIN"]} />}>

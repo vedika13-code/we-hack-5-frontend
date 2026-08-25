@@ -54,6 +54,8 @@ export function Navbar() {
             <Link to="/admin/announcements" className="block px-4 py-2 hover:bg-slate-50">Announcements</Link>
             <Link to="/admin/deadlines" className="block px-4 py-2 hover:bg-slate-50">Deadlines</Link>
             <Link to="/admin/sponsors" className="block px-4 py-2 hover:bg-slate-50">Sponsors</Link>
+            <Link to="/admin/judges" className="block px-4 py-2 hover:bg-slate-50">Judges</Link>
+            <Link to="/admin/mentors" className="block px-4 py-2 hover:bg-slate-50">Mentors</Link>
             {isSuperAdmin && (
               <>
                 <div className="border-t my-1" />

@@ -137,4 +137,17 @@ export const api = {
     if (params.page) qs.set("page", String(params.page));
     return request(`/admin/submissions?${qs.toString()}`);
   },
+
+  forgotPassword: (email: string) =>
+    request("/auth/forgot-password", { method: "POST", body: JSON.stringify({ email }) }),
+  resetPassword: (token: string, newPassword: string) =>
+    request("/auth/reset-password", { method: "POST", body: JSON.stringify({ token, newPassword }) }),
+
+  createJudge: (body: { name: string; photoUrl: string; designation: string; company: string; linkedin?: string; expertise: string; bio: string }) =>
+    request("/admin/judges", { method: "POST", body: JSON.stringify(body) }),
+  deleteJudge: (id: string) => request(`/admin/judges/${id}`, { method: "DELETE" }),
+
+  createMentor: (body: { name: string; photoUrl: string; expertise: string }) =>
+    request("/admin/mentors", { method: "POST", body: JSON.stringify(body) }),
+  deleteMentor: (id: string) => request(`/admin/mentors/${id}`, { method: "DELETE" }),
 };
