@@ -34,6 +34,9 @@ export default function VerifyEmail() {
         {error && <p className="text-red-600 text-sm">{error}</p>}
         <button className="w-full bg-slate-900 text-white rounded px-3 py-2">Verify</button>
       </form>
+      <p className="text-xs text-slate-500 mt-4 text-center">
+        Didn't get the code? Check your spam/junk folder — it can take a minute to arrive.
+      </p>
     </div>
   );
 }
