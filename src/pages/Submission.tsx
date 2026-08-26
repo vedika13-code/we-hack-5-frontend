@@ -1,12 +1,6 @@
 import { useEffect, useState } from "react";
 import { api } from "../lib/api";
 
-const CHECKLIST_ITEMS = [
-  { key: "readme", label: "README with setup instructions", icon: "📄" },
-  { key: "demo", label: "Demo video or live link", icon: "🎬" },
-  { key: "sourceCode", label: "Source code pushed", icon: "💻" },
-];
-
 export default function Submission() {
   const [submission, setSubmission] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -57,17 +51,6 @@ export default function Submission() {
     }
   }
 
-  async function toggleChecklistItem(key: string) {
-    const current = submission?.checklist ?? {};
-    const next = { ...current, [key]: !current[key] };
-    try {
-      await api.updateChecklist(next);
-      await load();
-    } catch (err: any) {
-      setError(err.message);
-    }
-  }
-
   if (loading) {
     return (
       <div className="wh-page max-w-2xl mx-auto space-y-4 animate-pulse">
@@ -78,8 +61,6 @@ export default function Submission() {
       </div>
     );
   }
-
-  const checkedCount = CHECKLIST_ITEMS.filter((i) => submission?.checklist?.[i.key]).length;
 
   return (
     <div className="wh-page max-w-2xl mx-auto">
@@ -97,73 +78,6 @@ export default function Submission() {
         </div>
       )}
 
-      {/* ── Checklist ── */}
-      <div className="wh-card mb-5">
-        <div className="flex items-center justify-between mb-4">
-          <p className="wh-section-label mb-0">✅ Submission Checklist</p>
-          <span
-            className="text-xs font-mono font-bold"
-            style={{ color: checkedCount === 3 ? "var(--wh-success)" : "var(--wh-text-muted)" }}
-          >
-            {checkedCount}/{CHECKLIST_ITEMS.length} done
-          </span>
-        </div>
-
-        {/* Progress bar */}
-        <div className="w-full h-1.5 rounded-full mb-5 overflow-hidden" style={{ background: "var(--wh-surface-2)" }}>
-          <div
-            className="h-full rounded-full transition-all duration-500"
-            style={{
-              width: `${(checkedCount / CHECKLIST_ITEMS.length) * 100}%`,
-              background: checkedCount === 3 ? "var(--wh-success)" : "var(--wh-accent)",
-            }}
-          />
-        </div>
-
-        <div className="space-y-3">
-          {CHECKLIST_ITEMS.map((item) => {
-            const checked = !!submission?.checklist?.[item.key];
-            return (
-              <label
-                key={item.key}
-                className="flex items-center gap-3 cursor-pointer group py-1"
-              >
-                {/* Custom checkbox */}
-                <div
-                  className="w-5 h-5 rounded-md border-2 flex items-center justify-center flex-shrink-0 transition-all duration-150"
-                  style={{
-                    borderColor: checked ? "var(--wh-accent)" : "var(--wh-border-muted)",
-                    background: checked ? "var(--wh-accent)" : "transparent",
-                  }}
-                  onClick={() => toggleChecklistItem(item.key)}
-                >
-                  {checked && (
-                    <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" strokeWidth={3} viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                    </svg>
-                  )}
-                </div>
-                <input
-                  type="checkbox"
-                  className="sr-only"
-                  checked={checked}
-                  onChange={() => toggleChecklistItem(item.key)}
-                />
-                <span className="text-sm flex items-center gap-2">
-                  <span>{item.icon}</span>
-                  <span
-                    className="transition-colors"
-                    style={{ color: checked ? "var(--wh-text-muted)" : "var(--wh-text)", textDecoration: checked ? "line-through" : "none" }}
-                  >
-                    {item.label}
-                  </span>
-                </span>
-              </label>
-            );
-          })}
-        </div>
-      </div>
-
       {/* ── Submit a link ── */}
       <div className="wh-card mb-5">
         <p className="wh-section-label">🔗 Submit a Link</p>
@@ -179,7 +93,7 @@ export default function Submission() {
         {submission?.projectLink && (
           <div className="mt-3 flex items-center gap-2">
             <span className="text-xs text-[var(--wh-text-muted)]">Current:</span>
-            <a
+            
               href={submission.projectLink}
               target="_blank"
               rel="noreferrer"
@@ -221,7 +135,7 @@ export default function Submission() {
               <p className="text-sm font-medium text-[var(--wh-text)] font-mono">{submission.fileType?.toUpperCase()}</p>
             </div>
             {submission.downloadUrl && (
-              <a
+              
                 href={submission.downloadUrl}
                 target="_blank"
                 rel="noreferrer"
