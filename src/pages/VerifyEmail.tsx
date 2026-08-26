@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { api } from "../lib/api";
+import { useAuth } from "../context/AuthContext";
 
 export default function VerifyEmail() {
   const location = useLocation() as { state?: { email?: string } };
@@ -8,12 +9,14 @@ export default function VerifyEmail() {
   const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { refreshUser } = useAuth();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
     try {
       await api.verifyOtp({ email, otp });
+      await refreshUser();
       navigate("/dashboard");
     } catch (err: any) {
       setError(err.message);

@@ -9,8 +9,8 @@ export default function Team() {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  async function load() {
-    setLoading(true);
+  async function load(isBackgroundRefresh = false) {
+    if (!isBackgroundRefresh) setLoading(true);
     try {
       const me = await api.me();
       setUser(me);
@@ -21,12 +21,14 @@ export default function Team() {
     } catch (err: any) {
       setError(err.message);
     } finally {
-      setLoading(false);
+      if (!isBackgroundRefresh) setLoading(false);
     }
   }
 
   useEffect(() => {
     load();
+    const interval = setInterval(() => load(true), 15_000);
+    return () => clearInterval(interval);
   }, []);
 
   async function handleFinalize() {

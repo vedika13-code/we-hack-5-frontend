@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { api } from "../lib/api";
+import { useAuth } from "../context/AuthContext";
 
 export default function Login() {
   const [form, setForm] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { refreshUser } = useAuth();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -14,6 +16,7 @@ export default function Login() {
     setLoading(true);
     try {
       const user = await api.login(form);
+      await refreshUser();
       if (user.role === "ADMIN" || user.role === "SUPER_ADMIN") {
         navigate("/admin");
       } else {

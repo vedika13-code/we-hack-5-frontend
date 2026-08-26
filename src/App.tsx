@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Navbar } from "./components/Navbar";
 import { Footer } from "./components/Footer";
 import { ProtectedRoute } from "./components/ProtectedRoute";
+import { AuthProvider } from "./context/AuthContext";
 
 import Home from "./pages/Home";
 import About from "./pages/About";
@@ -10,6 +11,7 @@ import ProblemStatements from "./pages/ProblemStatements";
 import Judges from "./pages/Judges";
 import Mentors from "./pages/Mentors";
 import Leaderboard from "./pages/Leaderboard";
+import Sponsors from "./pages/Sponsors";
 
 import Signup from "./pages/Signup";
 import VerifyEmail from "./pages/VerifyEmail";
@@ -37,49 +39,52 @@ import MentorsAdmin from "./pages/admin/MentorsAdmin";
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/timeline" element={<Timeline />} />
-        <Route path="/problem-statements" element={<ProblemStatements />} />
-        <Route path="/judges" element={<Judges />} />
-        <Route path="/mentors" element={<Mentors />} />
-        <Route path="/leaderboard" element={<Leaderboard />} />
+    <AuthProvider>
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/timeline" element={<Timeline />} />
+          <Route path="/problem-statements" element={<ProblemStatements />} />
+          <Route path="/judges" element={<Judges />} />
+          <Route path="/mentors" element={<Mentors />} />
+          <Route path="/leaderboard" element={<Leaderboard />} />
+          <Route path="/sponsors" element={<Sponsors />} />
 
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/verify-email" element={<VerifyEmail />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/verify-email" element={<VerifyEmail />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
 
-        <Route element={<ProtectedRoute />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/registration" element={<Registration />} />
-          <Route path="/team" element={<Team />} />
-          <Route path="/submission" element={<Submission />} />
-        </Route>
+          <Route element={<ProtectedRoute />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/registration" element={<Registration />} />
+            <Route path="/team" element={<Team />} />
+            <Route path="/submission" element={<Submission />} />
+          </Route>
 
-        <Route element={<ProtectedRoute roles={["ADMIN", "SUPER_ADMIN"]} />}>
-          <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="/admin/teams" element={<AdminTeams />} />
-          <Route path="/admin/participants" element={<AdminParticipants />} />
-          <Route path="/admin/submissions" element={<AdminSubmissions />} />
-          <Route path="/admin/announcements" element={<AdminAnnouncements />} />
-          <Route path="/admin/deadlines" element={<AdminDeadlines />} />
-          <Route path="/admin/shortlist" element={<AdminShortlist />} />
-          <Route path="/admin/sponsors" element={<AdminSponsors />} />
-          <Route path="/admin/judges" element={<JudgesAdmin />} />
-          <Route path="/admin/mentors" element={<MentorsAdmin />} />
-        </Route>
+          <Route element={<ProtectedRoute roles={["ADMIN", "SUPER_ADMIN"]} />}>
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin/teams" element={<AdminTeams />} />
+            <Route path="/admin/participants" element={<AdminParticipants />} />
+            <Route path="/admin/submissions" element={<AdminSubmissions />} />
+            <Route path="/admin/announcements" element={<AdminAnnouncements />} />
+            <Route path="/admin/deadlines" element={<AdminDeadlines />} />
+            <Route path="/admin/shortlist" element={<AdminShortlist />} />
+            <Route path="/admin/sponsors" element={<AdminSponsors />} />
+            <Route path="/admin/judges" element={<JudgesAdmin />} />
+            <Route path="/admin/mentors" element={<MentorsAdmin />} />
+          </Route>
 
-        <Route element={<ProtectedRoute roles={["SUPER_ADMIN"]} />}>
-          <Route path="/admin/manage-admins" element={<ManageAdmins />} />
-        </Route>
-      </Routes>
-      <Footer />
-    </BrowserRouter>
+          <Route element={<ProtectedRoute roles={["SUPER_ADMIN"]} />}>
+            <Route path="/admin/manage-admins" element={<ManageAdmins />} />
+          </Route>
+        </Routes>
+        <Footer />
+      </BrowserRouter>
+    </AuthProvider>
   );
 }

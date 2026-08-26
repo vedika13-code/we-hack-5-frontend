@@ -1,23 +1,14 @@
-import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { NotificationBell } from "./NotificationBell";
 import { Dropdown } from "./Dropdown";
-import { api } from "../lib/api";
+import { useAuth } from "../context/AuthContext";
 
 export function Navbar() {
-  const [user, setUser] = useState<any>(null);
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    api
-      .me()
-      .then(setUser)
-      .catch(() => setUser(null));
-  }, []);
-
   async function handleLogout() {
-    await api.logout();
-    setUser(null);
+    await logout();
     navigate("/");
   }
 
@@ -29,13 +20,15 @@ export function Navbar() {
       <Link to="/" className="font-bold text-lg">WE HACK 5.0</Link>
 
       <div className="flex items-center gap-5 text-slate-600">
+        <Link to="/problem-statements">Problem Statements</Link>
+        <Link to="/leaderboard">Leaderboard</Link>
+        <Link to="/sponsors">Sponsors</Link>
+
         <Dropdown label="Explore">
           <Link to="/about" className="block px-4 py-2 hover:bg-slate-50">About</Link>
           <Link to="/timeline" className="block px-4 py-2 hover:bg-slate-50">Timeline</Link>
-          <Link to="/problem-statements" className="block px-4 py-2 hover:bg-slate-50">Problem Statements</Link>
           <Link to="/judges" className="block px-4 py-2 hover:bg-slate-50">Judges</Link>
           <Link to="/mentors" className="block px-4 py-2 hover:bg-slate-50">Mentors</Link>
-          <Link to="/leaderboard" className="block px-4 py-2 hover:bg-slate-50">Leaderboard</Link>
         </Dropdown>
 
         {user && !isAdmin && !user.teamId && (
