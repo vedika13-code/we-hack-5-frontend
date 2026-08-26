@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../lib/api";
+import "../pages/admin/admin.css";
 
 export default function Team() {
   const [user, setUser] = useState<any>(null);
@@ -53,9 +54,9 @@ export default function Team() {
 
   if (loading) {
     return (
-      <div className="wh-page max-w-2xl mx-auto space-y-4 animate-pulse">
+      <div className="admin-theme wh-page max-w-2xl mx-auto space-y-4 animate-pulse">
         <div className="h-8 w-48 rounded-lg bg-wh-surface2" />
-        <div className="wh-card space-y-3">
+        <div className="admin-card space-y-3">
           {[1, 2, 3].map((i) => (
             <div key={i} className="h-4 rounded bg-wh-surface2" />
           ))}
@@ -66,17 +67,17 @@ export default function Team() {
 
   if (!team) {
     return (
-      <div className="wh-page max-w-lg mx-auto text-center">
-        <div className="wh-card py-14 flex flex-col items-center gap-5">
+      <div className="admin-theme wh-page max-w-lg mx-auto text-center">
+        <div className="admin-card py-14 flex flex-col items-center gap-5">
           <span className="text-6xl">🏕</span>
           <div>
-            <h2 className="text-xl font-bold text-[var(--wh-text-heading)] mb-2">No Team Yet</h2>
-            <p className="text-sm text-[var(--wh-text-muted)]">
+            <h2 className="text-xl font-bold text-[var(--admin-paper)] mb-2">No Team Yet</h2>
+            <p className="text-sm text-[var(--admin-muted)]">
               You haven't joined or created a team. Register now to get started.
             </p>
           </div>
           <button
-            className="wh-btn mt-2"
+            className="admin-primary-action mt-2"
             onClick={() => navigate("/registration")}
           >
             Register a Team ↗
@@ -90,12 +91,12 @@ export default function Team() {
 
   function statusBadge(s: string) {
     const map: Record<string, string> = {
-      PENDING: "wh-badge-yellow",
-      SUBMITTED: "wh-badge-purple",
-      APPROVED: "wh-badge-green",
-      REJECTED: "wh-badge-red",
+      PENDING: "border-[var(--admin-gold)] text-[var(--admin-gold)]",
+      SUBMITTED: "border-[var(--admin-lime)] text-[var(--admin-lime)]",
+      APPROVED: "border-[var(--admin-lime)] text-[var(--admin-lime)]",
+      REJECTED: "border-[var(--admin-pink)] text-[var(--admin-pink)]",
     };
-    return <span className={`wh-badge ${map[s] ?? "wh-badge-purple"}`}>{s}</span>;
+    return <span className={`admin-badge ${map[s] ?? "border-[var(--admin-lime)] text-[var(--admin-lime)]"}`}>{s}</span>;
   }
 
   function memberInitials(name: string) {
@@ -108,32 +109,32 @@ export default function Team() {
   }
 
   return (
-    <div className="wh-page max-w-2xl mx-auto">
-      <p className="text-xs tracking-widest uppercase text-[var(--wh-text-muted)] mb-6 font-semibold">
+    <div className="admin-theme wh-page max-w-2xl mx-auto">
+      <p className="text-xs tracking-widest uppercase text-[var(--admin-muted)] mb-6 font-semibold">
         WE HACK 5.0 · MY TEAM
       </p>
 
       {/* ── Team header ── */}
-      <div className="wh-card-accent mb-6 relative overflow-hidden">
+      <div className="admin-card border-[var(--admin-lime)] mb-6 relative overflow-hidden">
         <div
           className="absolute -bottom-8 -right-8 w-40 h-40 rounded-full pointer-events-none opacity-10"
-          style={{ background: "radial-gradient(circle, var(--wh-accent) 0%, transparent 70%)" }}
+          style={{ background: "radial-gradient(circle, var(--admin-lime) 0%, transparent 70%)" }}
         />
         <div className="relative z-10">
           <div className="flex items-start justify-between gap-4 flex-wrap mb-4">
             <div>
-              <h1 className="text-2xl font-bold text-[var(--wh-text-heading)]">{team.name}</h1>
+              <h1 className="text-2xl font-bold text-[var(--admin-paper)]">{team.name}</h1>
               {team.college && (
-                <p className="text-sm text-[var(--wh-text-muted)] mt-0.5">{team.college}</p>
+                <p className="text-sm text-[var(--admin-muted)] mt-0.5">{team.college}</p>
               )}
             </div>
             {/* Team code pill */}
             <span
               className="font-mono text-xs font-bold tracking-widest px-3 py-1.5 rounded-lg border"
               style={{
-                background: "var(--wh-accent-dim)",
-                borderColor: "var(--wh-border)",
-                color: "var(--wh-accent)",
+                background: "rgba(220,255,145,0.05)",
+                borderColor: "var(--admin-lime)",
+                color: "var(--admin-lime)",
               }}
             >
               #{team.code}
@@ -144,13 +145,13 @@ export default function Team() {
           <div className="flex flex-wrap gap-3">
             {statusBadge(team.registrationStatus ?? "PENDING")}
             {team.track && (
-              <span className="wh-badge wh-badge-purple">🔬 {team.track}</span>
+              <span className="admin-badge border-[var(--admin-lime)] text-[var(--admin-lime)]">🔬 {team.track}</span>
             )}
             <span
-              className="wh-badge"
+              className="admin-badge"
               style={{
                 background: team.registrationComplete ? "rgba(52,211,153,0.1)" : "rgba(251,191,36,0.1)",
-                color: team.registrationComplete ? "var(--wh-success)" : "var(--wh-warning)",
+                color: team.registrationComplete ? "var(--admin-lime)" : "var(--admin-gold)",
                 border: `1px solid ${team.registrationComplete ? "rgba(52,211,153,0.25)" : "rgba(251,191,36,0.25)"}`,
               }}
             >
@@ -161,53 +162,53 @@ export default function Team() {
       </div>
 
       {error && (
-        <div className="mb-4 px-4 py-2.5 rounded-lg border text-sm" style={{ background: "rgba(248,113,113,0.08)", borderColor: "rgba(248,113,113,0.25)", color: "var(--wh-error)" }}>
+        <div className="mb-4 px-4 py-2.5 rounded-lg border text-sm" style={{ background: "rgba(248,113,113,0.08)", borderColor: "rgba(248,113,113,0.25)", color: "var(--admin-pink)" }}>
           {error}
         </div>
       )}
 
       {/* ── Idea ── */}
       {(team.ideaTitle || team.ideaDescription) && (
-        <div className="wh-card mb-6">
-          <p className="wh-section-label">💡 Project Idea</p>
+        <div className="admin-card mb-6">
+          <p className="admin-label">💡 Project Idea</p>
           {team.ideaTitle && (
-            <h3 className="font-semibold text-[var(--wh-text-heading)] mb-1">{team.ideaTitle}</h3>
+            <h3 className="font-semibold text-[var(--admin-paper)] mb-1">{team.ideaTitle}</h3>
           )}
           {team.ideaDescription && (
-            <p className="text-sm text-[var(--wh-text-muted)] leading-relaxed">{team.ideaDescription}</p>
+            <p className="text-sm text-[var(--admin-muted)] leading-relaxed">{team.ideaDescription}</p>
           )}
         </div>
       )}
 
       {/* ── Members ── */}
-      <div className="wh-card mb-6">
-        <p className="wh-section-label">👥 Members</p>
+      <div className="admin-card mb-6">
+        <p className="admin-label">👥 Members</p>
         <ul className="space-y-0">
           {team.members?.map((m: any) => (
             <li
               key={m.id}
-              className="flex items-center justify-between py-3 border-b border-[var(--wh-border-muted)] last:border-0"
+              className="flex items-center justify-between py-3 border-b border-[var(--admin-line)] last:border-0"
             >
               <div className="flex items-center gap-3">
                 <div className="wh-avatar">{memberInitials(m.fullName ?? "?")}</div>
                 <div>
-                  <p className="text-sm font-medium text-[var(--wh-text)]">{m.fullName}</p>
+                  <p className="text-sm font-medium text-[var(--admin-paper)]">{m.fullName}</p>
                   {m.email && (
-                    <p className="text-xs text-[var(--wh-text-muted)] font-mono">{m.email}</p>
+                    <p className="text-xs text-[var(--admin-muted)] font-mono">{m.email}</p>
                   )}
                 </div>
               </div>
               <div className="flex items-center gap-3">
                 {m.role === "TEAM_LEADER" ? (
-                  <span className="wh-badge wh-badge-purple">Leader</span>
+                  <span className="admin-badge border-[var(--admin-lime)] text-[var(--admin-lime)]">Leader</span>
                 ) : (
-                  <span className="wh-badge" style={{ background: "var(--wh-surface-2)", color: "var(--wh-text-muted)", border: "1px solid var(--wh-border-muted)" }}>
+                  <span className="admin-badge" style={{ background: "var(--admin-ink)", color: "var(--admin-muted)", border: "1px solid var(--admin-line)" }}>
                     Member
                   </span>
                 )}
                 {isLeader && m.role !== "TEAM_LEADER" && (
                   <button
-                    className="wh-btn wh-btn-danger text-xs px-2.5 py-1"
+                    className="admin-primary-action admin-primary-action-danger text-xs px-2.5 py-1"
                     onClick={() => handleRemove(m.id)}
                   >
                     Remove
@@ -221,14 +222,14 @@ export default function Team() {
 
       {/* ── Finalize CTA ── */}
       {isLeader && !team.registrationComplete && (
-        <div className="wh-card border-[var(--wh-border)] bg-[var(--wh-accent-dim)] flex items-center justify-between gap-4 flex-wrap">
+        <div className="admin-card border-[var(--admin-lime)] bg-[rgba(220,255,145,0.05)] flex items-center justify-between gap-4 flex-wrap">
           <div>
-            <p className="font-semibold text-[var(--wh-text-heading)] text-sm">Ready to lock in?</p>
-            <p className="text-xs text-[var(--wh-text-muted)] mt-0.5">
+            <p className="font-semibold text-[var(--admin-paper)] text-sm">Ready to lock in?</p>
+            <p className="text-xs text-[var(--admin-muted)] mt-0.5">
               Finalizing locks your team roster and submits your registration.
             </p>
           </div>
-          <button className="wh-btn flex-shrink-0" onClick={handleFinalize}>
+          <button className="admin-primary-action flex-shrink-0" onClick={handleFinalize}>
             Finalize Registration ✓
           </button>
         </div>

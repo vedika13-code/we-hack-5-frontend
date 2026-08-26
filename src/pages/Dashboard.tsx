@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { api } from "../lib/api";
+import "../pages/admin/admin.css";
 
 export default function Dashboard() {
   const [user, setUser] = useState<any>(null);
@@ -16,14 +17,14 @@ export default function Dashboard() {
   const status = user?.team?.registrationStatus ?? null;
 
   function statusBadge(s: string | null) {
-    if (!s) return <span className="wh-badge wh-badge-yellow">No Team</span>;
+    if (!s) return <span className="admin-badge border-[var(--admin-gold)] text-[var(--admin-gold)]">No Team</span>;
     const map: Record<string, string> = {
-      PENDING: "wh-badge-yellow",
-      SUBMITTED: "wh-badge-purple",
-      APPROVED: "wh-badge-green",
-      REJECTED: "wh-badge-red",
+      PENDING: "border-[var(--admin-gold)] text-[var(--admin-gold)]",
+      SUBMITTED: "border-[var(--admin-lime)] text-[var(--admin-lime)]",
+      APPROVED: "border-[var(--admin-lime)] text-[var(--admin-lime)]",
+      REJECTED: "border-[var(--admin-pink)] text-[var(--admin-pink)]",
     };
-    return <span className={`wh-badge ${map[s] ?? "wh-badge-purple"}`}>{s}</span>;
+    return <span className={`admin-badge ${map[s] ?? "border-[var(--admin-lime)] text-[var(--admin-lime)]"}`}>{s}</span>;
   }
 
   const quickActions = [
@@ -62,49 +63,49 @@ export default function Dashboard() {
   ];
 
   return (
-    <div className="wh-page max-w-4xl mx-auto">
+    <div className="admin-theme wh-page max-w-4xl mx-auto">
       {/* ── Hero greeting ── */}
       <div
-        className="wh-card-accent mb-8 relative overflow-hidden"
+        className="admin-card border-[var(--admin-lime)] mb-8 relative overflow-hidden"
         style={{ minHeight: "140px" }}
       >
         {/* Glow orb */}
         <div
           className="absolute -top-12 -right-12 w-56 h-56 rounded-full pointer-events-none opacity-20"
-          style={{ background: "radial-gradient(circle, var(--wh-accent) 0%, transparent 70%)" }}
+          style={{ background: "radial-gradient(circle, var(--admin-lime) 0%, transparent 70%)" }}
         />
         <div className="relative z-10">
-          <p className="text-xs tracking-widest uppercase text-[var(--wh-text-muted)] mb-2 font-semibold">
+          <p className="text-xs tracking-widest uppercase text-[var(--admin-muted)] mb-2 font-semibold">
             WE HACK 5.0 · DASHBOARD
           </p>
           {user ? (
             <>
-              <h1 className="text-3xl font-bold text-[var(--wh-text-heading)] mb-3">
+              <h1 className="text-3xl font-bold text-[var(--admin-paper)] mb-3">
                 Welcome back,{" "}
-                <span style={{ color: "var(--wh-accent)" }}>
+                <span style={{ color: "var(--admin-lime)" }}>
                   {user.fullName?.split(" ")[0] ?? "Hacker"}
                 </span>{" "}
                 👋
               </h1>
               <div className="flex items-center gap-3 flex-wrap">
-                <span className="text-sm text-[var(--wh-text-muted)]">Registration status:</span>
+                <span className="text-sm text-[var(--admin-muted)]">Registration status:</span>
                 {statusBadge(status)}
                 {user.email && (
-                  <span className="text-xs text-[var(--wh-text-muted)] font-mono">{user.email}</span>
+                  <span className="text-xs text-[var(--admin-muted)] font-mono">{user.email}</span>
                 )}
               </div>
             </>
           ) : (
             <div className="space-y-3">
-              <div className="h-8 w-64 rounded-lg bg-[var(--wh-surface-2)] animate-pulse" />
-              <div className="h-4 w-40 rounded bg-[var(--wh-surface-2)] animate-pulse" />
+              <div className="h-8 w-64 rounded-lg bg-[var(--admin-ink)] animate-pulse" />
+              <div className="h-4 w-40 rounded bg-[var(--admin-ink)] animate-pulse" />
             </div>
           )}
         </div>
       </div>
 
       {/* ── Quick actions ── */}
-      <p className="wh-section-label">Quick Actions</p>
+      <p className="admin-label">Quick Actions</p>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
         {quickActions.map((action) => (
           <Link
@@ -112,20 +113,20 @@ export default function Dashboard() {
             to={action.to}
             className="group block rounded-xl border p-5 transition-all duration-200 hover:-translate-y-0.5"
             style={{
-              background: action.accent ? "var(--wh-accent-dim)" : "var(--wh-surface)",
-              borderColor: action.accent ? "var(--wh-border)" : "var(--wh-border-muted)",
+              background: action.accent ? "rgba(220,255,145,0.05)" : "var(--admin-ink-soft)",
+              borderColor: action.accent ? "var(--admin-lime)" : "var(--admin-line)",
             }}
           >
             <div className="flex items-start gap-3">
               <span className="text-2xl mt-0.5">{action.icon}</span>
               <div>
                 <p
-                  className="font-semibold text-sm mb-1 group-hover:text-wh-accent transition-colors"
-                  style={{ color: action.accent ? "var(--wh-accent)" : "var(--wh-text-heading)" }}
+                  className="font-semibold text-sm mb-1 group-hover:text-[var(--admin-lime)] transition-colors"
+                  style={{ color: action.accent ? "var(--admin-lime)" : "var(--admin-paper)" }}
                 >
                   {action.title} →
                 </p>
-                <p className="text-xs text-[var(--wh-text-muted)] leading-relaxed">{action.desc}</p>
+                <p className="text-xs text-[var(--admin-muted)] leading-relaxed">{action.desc}</p>
               </div>
             </div>
           </Link>
@@ -135,27 +136,27 @@ export default function Dashboard() {
       {/* ── Bottom row: Announcements + Deadlines ── */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Announcements */}
-        <div className="wh-card">
-          <p className="wh-section-label">📢 Announcements</p>
+        <div className="admin-card">
+          <p className="admin-label">📢 Announcements</p>
           {announcements.length > 0 ? (
             <ul className="space-y-3">
               {announcements.slice(0, 4).map((a: any, i: number) => (
-                <li key={i} className="border-l-2 pl-3" style={{ borderColor: "var(--wh-accent)" }}>
-                  <p className="text-sm font-semibold text-[var(--wh-text-heading)]">{a.title}</p>
+                <li key={i} className="border-l-2 pl-3" style={{ borderColor: "var(--admin-lime)" }}>
+                  <p className="text-sm font-semibold text-[var(--admin-paper)]">{a.title}</p>
                   {a.body && (
-                    <p className="text-xs text-[var(--wh-text-muted)] mt-0.5 line-clamp-2">{a.body}</p>
+                    <p className="text-xs text-[var(--admin-muted)] mt-0.5 line-clamp-2">{a.body}</p>
                   )}
                 </li>
               ))}
             </ul>
           ) : (
-            <p className="text-sm text-[var(--wh-text-muted)]">No announcements yet.</p>
+            <p className="text-sm text-[var(--admin-muted)]">No announcements yet.</p>
           )}
         </div>
 
         {/* Deadlines */}
-        <div className="wh-card">
-          <p className="wh-section-label">⏰ Upcoming Deadlines</p>
+        <div className="admin-card">
+          <p className="admin-label">⏰ Upcoming Deadlines</p>
           {deadlines.length > 0 ? (
             <ul className="space-y-3">
               {deadlines.slice(0, 4).map((d: any, i: number) => {
@@ -163,10 +164,10 @@ export default function Dashboard() {
                 const isPast = due && new Date(due) < new Date();
                 return (
                   <li key={i} className="flex items-center justify-between">
-                    <span className="text-sm text-[var(--wh-text)]">{d.key ?? d.label}</span>
+                    <span className="text-sm text-[var(--admin-paper)]">{d.key ?? d.label}</span>
                     <span
                       className="text-xs font-mono"
-                      style={{ color: isPast ? "var(--wh-error)" : "var(--wh-success)" }}
+                      style={{ color: isPast ? "var(--admin-pink)" : "var(--admin-lime)" }}
                     >
                       {due ? new Date(due).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }) : "TBD"}
                     </span>
@@ -175,7 +176,7 @@ export default function Dashboard() {
               })}
             </ul>
           ) : (
-            <p className="text-sm text-[var(--wh-text-muted)]">No deadlines set yet.</p>
+            <p className="text-sm text-[var(--admin-muted)]">No deadlines set yet.</p>
           )}
         </div>
       </div>
