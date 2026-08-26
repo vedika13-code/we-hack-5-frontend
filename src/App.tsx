@@ -17,6 +17,8 @@ import Login from "./pages/Login";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 
+import Sponsors from "./pages/Sponsors";
+
 import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
 import Registration from "./pages/Registration";
@@ -47,6 +49,7 @@ export default function App() {
         <Route path="/judges" element={<Judges />} />
         <Route path="/mentors" element={<Mentors />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
+        <Route path="/sponsors" element={<Sponsors />} />
 
         <Route path="/signup" element={<Signup />} />
         <Route path="/verify-email" element={<VerifyEmail />} />

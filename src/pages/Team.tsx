@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../lib/api";
+import { PageShell } from "../components/PageShell";
 
 export default function Team() {
   const [user, setUser] = useState<any>(null);
@@ -49,61 +50,119 @@ export default function Team() {
     }
   }
 
-  if (loading) return <div className="p-8 text-center text-slate-500">Loading…</div>;
+  if (loading) return (
+    <PageShell title="Your Team">
+      <div className="admin-card p-12 text-center text-[var(--admin-muted)] font-mono animate-pulse uppercase tracking-widest">
+        Loading team data...
+      </div>
+    </PageShell>
+  );
 
   if (!team) {
     return (
-      <div className="max-w-lg mx-auto px-6 py-12 text-center">
-        <p className="text-slate-600 mb-4">You're not on a team yet.</p>
-        <button className="bg-slate-900 text-white rounded px-4 py-2" onClick={() => navigate("/registration")}>
-          Register a team
-        </button>
-      </div>
+      <PageShell title="Your Team" subtitle="You are not part of any team yet.">
+        <div className="admin-card p-12 flex flex-col items-center justify-center text-center">
+          <div className="w-16 h-16 rounded-full bg-[rgba(255,255,255,0.05)] border border-[var(--admin-line)] flex items-center justify-center mb-6 text-2xl">
+            🤝
+          </div>
+          <button className="admin-primary-action" onClick={() => navigate("/registration")}>
+            Register a team
+          </button>
+        </div>
+      </PageShell>
     );
   }
 
   const isLeader = user?.role === "TEAM_LEADER";
 
   return (
-    <div className="max-w-2xl mx-auto px-6 py-12">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold">{team.name}</h1>
-        <span className="text-sm bg-slate-100 rounded px-3 py-1 font-mono tracking-widest">{team.code}</span>
-      </div>
-
-      {error && <p className="text-red-600 text-sm mb-4">{error}</p>}
-
-      <div className="space-y-1 text-slate-700 mb-6">
-        <p>College: {team.college}</p>
-        {team.track && <p>Track: {team.track}</p>}
-        {team.ideaTitle && <p>Idea: {team.ideaTitle}</p>}
-        <p>
-          Status: {team.registrationStatus} · Registration{" "}
-          {team.registrationComplete ? "complete ✅" : "not yet finalized"}
-        </p>
-      </div>
-
-      <h2 className="font-semibold mb-2">Members</h2>
-      <ul className="divide-y border rounded mb-6">
-        {team.members?.map((m: any) => (
-          <li key={m.id} className="flex items-center justify-between px-4 py-2">
-            <span>
-              {m.fullName} {m.role === "TEAM_LEADER" && <span className="text-xs text-slate-500">(Leader)</span>}
-            </span>
-            {isLeader && m.role !== "TEAM_LEADER" && (
-              <button className="text-red-600 text-sm" onClick={() => handleRemove(m.id)}>
-                Remove
-              </button>
-            )}
-          </li>
-        ))}
-      </ul>
-
-      {isLeader && !team.registrationComplete && (
-        <button className="bg-slate-900 text-white rounded px-4 py-2" onClick={handleFinalize}>
-          Finalize registration
-        </button>
+    <PageShell title={team.name} subtitle="Manage your team members and registration status.">
+      {error && (
+        <div className="bg-[rgba(255,90,90,0.1)] border border-[var(--admin-pink)] text-[var(--admin-pink)] p-4 rounded mb-8 font-mono text-sm">
+          {error}
+        </div>
       )}
-    </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="admin-card p-6 md:p-8">
+          <div className="flex items-center justify-between mb-8 pb-4 border-b border-[var(--admin-line)]">
+            <h2 className="text-sm font-bold font-mono tracking-widest text-[var(--admin-accent)] uppercase">Team Details</h2>
+            <span className="text-xs font-mono bg-[var(--admin-ink)] px-3 py-1 rounded border border-[var(--admin-line)] tracking-widest text-[var(--admin-paper)]">
+              CODE: {team.code}
+            </span>
+          </div>
+          
+          <div className="space-y-4 font-mono text-sm">
+            <div>
+              <p className="text-[var(--admin-muted)] uppercase tracking-widest text-xs mb-1">College</p>
+              <p className="text-[var(--admin-paper)]">{team.college}</p>
+            </div>
+            {team.track && (
+              <div>
+                <p className="text-[var(--admin-muted)] uppercase tracking-widest text-xs mb-1">Track</p>
+                <p className="text-[var(--admin-paper)]">{team.track}</p>
+              </div>
+            )}
+            {team.ideaTitle && (
+              <div>
+                <p className="text-[var(--admin-muted)] uppercase tracking-widest text-xs mb-1">Idea</p>
+                <p className="text-[var(--admin-paper)]">{team.ideaTitle}</p>
+              </div>
+            )}
+            <div>
+              <p className="text-[var(--admin-muted)] uppercase tracking-widest text-xs mb-1">Status</p>
+              <div className="flex items-center gap-3">
+                <span className={`px-2 py-1 rounded text-xs font-bold uppercase tracking-widest ${
+                  team.registrationStatus === 'APPROVED' ? 'bg-[rgba(220,255,145,0.1)] text-[var(--admin-lime)]' : 
+                  team.registrationStatus === 'REJECTED' ? 'bg-[rgba(255,90,90,0.1)] text-[var(--admin-pink)]' : 
+                  'bg-[var(--admin-ink)] text-[var(--admin-paper)]'
+                }`}>
+                  {team.registrationStatus}
+                </span>
+                <span className="text-[var(--admin-paper-dim)]">
+                  ({team.registrationComplete ? "Finalized" : "Not Finalized"})
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          {isLeader && !team.registrationComplete && (
+            <button className="admin-primary-action w-full mt-8" onClick={handleFinalize}>
+              Finalize Registration
+            </button>
+          )}
+        </div>
+
+        <div className="admin-card p-6 md:p-8">
+          <h2 className="text-sm font-bold font-mono tracking-widest text-[var(--admin-accent)] uppercase mb-8 pb-4 border-b border-[var(--admin-line)]">Members</h2>
+          
+          <div className="flex flex-col gap-3">
+            {team.members?.map((m: any) => (
+              <div key={m.id} className="flex items-center justify-between p-3 rounded bg-[var(--admin-ink-soft)] border border-[var(--admin-line)]">
+                <div>
+                  <p className="font-bold text-[var(--admin-paper)] flex items-center gap-2">
+                    {m.fullName}
+                    {m.role === "TEAM_LEADER" && (
+                      <span className="text-[0.65rem] bg-[var(--admin-lime)] text-[var(--admin-ink)] px-2 py-0.5 rounded uppercase tracking-widest">
+                        Leader
+                      </span>
+                    )}
+                  </p>
+                  <p className="text-xs font-mono text-[var(--admin-muted)] mt-1">{m.email}</p>
+                </div>
+                {isLeader && m.role !== "TEAM_LEADER" && (
+                  <button 
+                    className="admin-danger-action !px-3 !py-1 !text-xs !h-auto" 
+                    onClick={() => handleRemove(m.id)}
+                  >
+                    Remove
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </PageShell>
   );
 }
