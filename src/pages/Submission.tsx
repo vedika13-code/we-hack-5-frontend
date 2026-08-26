@@ -1,12 +1,6 @@
 import { useEffect, useState } from "react";
 import { api } from "../lib/api";
 
-const CHECKLIST_ITEMS = [
-  { key: "readme", label: "README with setup instructions" },
-  { key: "demo", label: "Demo video or live link" },
-  { key: "sourceCode", label: "Source code pushed" },
-];
-
 export default function Submission() {
   const [submission, setSubmission] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -57,17 +51,6 @@ export default function Submission() {
     }
   }
 
-  async function toggleChecklistItem(key: string) {
-    const current = submission?.checklist ?? {};
-    const next = { ...current, [key]: !current[key] };
-    try {
-      await api.updateChecklist(next);
-      await load();
-    } catch (err: any) {
-      setError(err.message);
-    }
-  }
-
   if (loading) return <div className="p-8 text-center text-slate-500">Loading…</div>;
 
   return (
@@ -78,22 +61,6 @@ export default function Submission() {
       </p>
 
       {error && <p className="text-red-600 text-sm mb-4">{error}</p>}
-
-      <div className="border rounded p-4 mb-6">
-        <h2 className="font-semibold mb-3">Checklist</h2>
-        <div className="space-y-2">
-          {CHECKLIST_ITEMS.map((item) => (
-            <label key={item.key} className="flex items-center gap-2 text-sm">
-              <input
-                type="checkbox"
-                checked={!!submission?.checklist?.[item.key]}
-                onChange={() => toggleChecklistItem(item.key)}
-              />
-              {item.label}
-            </label>
-          ))}
-        </div>
-      </div>
 
       <div className="border rounded p-4 mb-6">
         <h2 className="font-semibold mb-3">Submit a link</h2>
