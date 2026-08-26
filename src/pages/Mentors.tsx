@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { api } from "../lib/api";
+import "../pages/admin/admin.css";
 
 /* ─── helpers ──────────────────────────────────────────────────── */
 
@@ -25,7 +26,7 @@ function AvatarWithFallback({ src, name }: { src?: string; name: string }) {
     );
   }
   return (
-    <div className="w-16 h-16 rounded-full bg-purple-100 text-purple-700 font-bold text-lg flex items-center justify-center flex-shrink-0">
+    <div className="w-16 h-16 rounded-full bg-[var(--admin-ink)] text-[var(--admin-pink)] font-bold text-lg flex items-center justify-center flex-shrink-0">
       {getInitials(name)}
     </div>
   );
@@ -35,10 +36,10 @@ function AvatarWithFallback({ src, name }: { src?: string; name: string }) {
 
 function MentorSkeleton() {
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-4 flex flex-col items-center gap-2 animate-pulse">
-      <div className="w-16 h-16 rounded-full bg-slate-200" />
-      <div className="h-3.5 bg-slate-200 rounded w-24" />
-      <div className="h-3 bg-slate-200 rounded w-16" />
+    <div className="rounded-xl border border-[var(--admin-line)] admin-card p-4 flex flex-col items-center gap-2 animate-pulse">
+      <div className="w-16 h-16 rounded-full bg-[var(--admin-line)]" />
+      <div className="h-3.5 bg-[var(--admin-line)] rounded w-24" />
+      <div className="h-3 bg-[var(--admin-line)] rounded w-16" />
     </div>
   );
 }
@@ -51,7 +52,7 @@ function MentorCard({ mentor }: { mentor: any }) {
     : [];
 
   return (
-    <div className="rounded-xl border border-slate-200 bg-white hover:shadow-md hover:border-purple-200 transition-all duration-200 flex flex-col overflow-hidden">
+    <div className="rounded-xl border border-[var(--admin-line)] admin-card hover:shadow-md hover:border-[var(--admin-pink)] transition-all duration-200 flex flex-col overflow-hidden">
       {/* accent top strip */}
       <div className="h-1 w-full bg-gradient-to-r from-purple-500 to-violet-400" />
 
@@ -59,7 +60,7 @@ function MentorCard({ mentor }: { mentor: any }) {
         <AvatarWithFallback src={mentor.photoUrl} name={mentor.name} />
 
         <div>
-          <h3 className="font-bold text-slate-900 text-sm leading-snug">{mentor.name}</h3>
+          <h3 className="font-bold text-[var(--admin-paper)] text-sm leading-snug">{mentor.name}</h3>
         </div>
 
         {chips.length > 0 && (
@@ -67,7 +68,7 @@ function MentorCard({ mentor }: { mentor: any }) {
             {chips.map((chip: string) => (
               <span
                 key={chip}
-                className="text-xs font-semibold uppercase tracking-wide bg-purple-50 text-purple-700 border border-purple-200 px-2 py-0.5 rounded"
+                className="text-xs font-semibold uppercase tracking-wide bg-[var(--admin-ink)] text-[var(--admin-pink)] border border-[var(--admin-pink)] px-2 py-0.5 rounded"
               >
                 {chip}
               </span>
@@ -101,16 +102,16 @@ export default function Mentors() {
   }, [mentors, search]);
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="admin-theme min-h-screen bg-[var(--admin-bg)] text-[var(--admin-text)]">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
 
         {/* ── Page header ── */}
         <div className="mb-8">
-          <p className="text-xs font-bold uppercase tracking-widest text-purple-600 mb-1">
+          <p className="text-xs font-bold uppercase tracking-widest text-[var(--admin-pink)] mb-1">
             WE HACK 5.0
           </p>
-          <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-2">Mentors</h1>
-          <p className="text-slate-500 text-sm sm:text-base max-w-xl">
+          <h1 className="text-3xl sm:text-4xl font-bold text-[var(--admin-paper)] mb-2">Mentors</h1>
+          <p className="text-[var(--admin-muted)] text-sm sm:text-base max-w-xl">
             Mentors are available in person throughout the event. No booking needed — just find them on the floor and ask away.
           </p>
         </div>
@@ -120,7 +121,7 @@ export default function Mentors() {
           <div className="mb-6">
             <div className="relative">
               <svg
-                className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"
+                className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--admin-muted)]"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth={2}
@@ -134,7 +135,7 @@ export default function Mentors() {
                 placeholder="Search by name or expertise…"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full pl-9 pr-4 py-2.5 text-sm rounded-lg border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent placeholder-slate-400"
+                className="w-full pl-9 pr-4 py-2.5 text-sm rounded-lg border border-[var(--admin-line)] admin-card focus:outline-none focus:ring-2 focus:ring-[var(--admin-lime)] focus:border-transparent placeholder-slate-400"
               />
             </div>
           </div>
@@ -142,8 +143,8 @@ export default function Mentors() {
 
         {/* ── Availability callout ── */}
         {!loading && mentors.length > 0 && (
-          <div className="flex items-center gap-2 mb-6 px-4 py-2.5 rounded-lg bg-purple-50 border border-purple-200 text-purple-700 text-xs font-semibold uppercase tracking-wide w-fit">
-            <span className="w-2 h-2 rounded-full bg-purple-500 animate-pulse" />
+          <div className="flex items-center gap-2 mb-6 px-4 py-2.5 rounded-lg bg-[var(--admin-ink)] border border-[var(--admin-pink)] text-[var(--admin-pink)] text-xs font-semibold uppercase tracking-wide w-fit">
+            <span className="w-2 h-2 rounded-full bg-[var(--admin-ink)]0 animate-pulse" />
             Mentor access is live during the hackathon
           </div>
         )}
@@ -157,27 +158,27 @@ export default function Mentors() {
           </div>
         ) : mentors.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 text-center">
-            <div className="w-16 h-16 rounded-full bg-purple-100 flex items-center justify-center mb-4">
-              <svg className="w-8 h-8 text-purple-400" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
+            <div className="w-16 h-16 rounded-full bg-[var(--admin-ink)] flex items-center justify-center mb-4">
+              <svg className="w-8 h-8 text-[var(--admin-pink)]" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0zM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
               </svg>
             </div>
-            <p className="text-slate-900 font-semibold text-lg">Mentors to be announced</p>
-            <p className="text-slate-500 text-sm mt-1">Our mentor lineup is being finalized. Check back soon.</p>
+            <p className="text-[var(--admin-paper)] font-semibold text-lg">Mentors to be announced</p>
+            <p className="text-[var(--admin-muted)] text-sm mt-1">Our mentor lineup is being finalized. Check back soon.</p>
           </div>
         ) : filtered.length === 0 ? (
           <div className="py-16 text-center">
-            <p className="text-slate-500 text-sm">No mentors match your search.</p>
+            <p className="text-[var(--admin-muted)] text-sm">No mentors match your search.</p>
             <button
               onClick={() => setSearch("")}
-              className="mt-3 text-xs font-semibold text-purple-600 hover:underline"
+              className="mt-3 text-xs font-semibold text-[var(--admin-pink)] hover:underline"
             >
               Clear search
             </button>
           </div>
         ) : (
           <>
-            <p className="text-xs text-slate-400 mb-4 font-medium uppercase tracking-wide">
+            <p className="text-xs text-[var(--admin-muted)] mb-4 font-medium uppercase tracking-wide">
               {filtered.length} of {mentors.length} mentors
             </p>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
