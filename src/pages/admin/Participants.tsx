@@ -1,8 +1,18 @@
-export default function Participants() {
+import { AdminShell } from "./components/AdminShell";
+import { AdminPageHeader } from "./components/AdminPageHeader";
+import { EmptyState } from "./components/FeedbackStates";
+
+export default function AdminParticipants() {
   return (
-    <div className="max-w-5xl mx-auto px-6 py-12">
-      <h1 className="text-2xl font-bold mb-4">Participants</h1>
-      <p className="text-slate-600">TODO: admin feature, Phase 4.</p>
-    </div>
+    <AdminShell>
+      <AdminPageHeader
+        title="Participants"
+        description="Browse the directory of all individual registered participants."
+      />
+      <EmptyState
+        title="API Integration Required"
+        message="The participant directory endpoint is not currently exposed in the backend API. Please request the backend team to add a participant list endpoint to proceed with this view."
+      />
+    </AdminShell>
   );
 }

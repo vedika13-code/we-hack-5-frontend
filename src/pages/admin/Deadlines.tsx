@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { api } from "../../lib/api";
+import { AdminShell } from "./components/AdminShell";
+import { AdminPageHeader } from "./components/AdminPageHeader";
+import { ErrorState } from "./components/FeedbackStates";
+import { StatusBadge } from "./components/StatusBadge";
+import { ConfirmDialog } from "./components/ConfirmDialog";
 
 export default function Dashboard() {
   const [user, setUser] = useState<any>(null);
