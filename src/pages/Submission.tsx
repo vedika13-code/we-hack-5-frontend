@@ -78,9 +78,8 @@ export default function Submission() {
         </div>
       )}
 
-      {/* ── Submit a link ── */}
       <div className="wh-card mb-5">
-        <p className="wh-section-label">🔗 Submit a Link</p>
+        <p className="wh-section-label">Submit a Link</p>
         <form onSubmit={handleLinkSubmit} className="flex gap-2">
           <input
             className="wh-input flex-1"
@@ -93,26 +92,20 @@ export default function Submission() {
         {submission?.projectLink && (
           <div className="mt-3 flex items-center gap-2">
             <span className="text-xs text-[var(--wh-text-muted)]">Current:</span>
-            
-              href={submission.projectLink}
-              target="_blank"
-              rel="noreferrer"
-              className="text-xs font-mono text-[var(--wh-accent)] hover:underline truncate"
-            >
+            <a href={submission.projectLink} target="_blank" rel="noreferrer" className="text-xs font-mono text-[var(--wh-accent)] hover:underline truncate">
               {submission.projectLink}
             </a>
           </div>
         )}
       </div>
 
-      {/* ── Upload a file ── */}
       <div className="wh-card mb-6">
-        <p className="wh-section-label">📁 Upload a File</p>
+        <p className="wh-section-label">Upload a File</p>
         <label
           className="flex flex-col items-center gap-3 border-2 border-dashed rounded-xl p-8 cursor-pointer transition-colors hover:border-[var(--wh-accent)]"
           style={{ borderColor: "var(--wh-border-muted)" }}
         >
-          <span className="text-3xl">{uploading ? "⏳" : "📂"}</span>
+          <span className="text-3xl">{uploading ? "Uploading" : "Upload"}</span>
           <div className="text-center">
             <p className="text-sm font-medium text-[var(--wh-text)]">
               {uploading ? "Uploading…" : "Click to upload or drag & drop"}
@@ -129,18 +122,13 @@ export default function Submission() {
         </label>
         {submission?.fileUrl && !uploading && (
           <div className="mt-3 flex items-center gap-3 px-3 py-2.5 rounded-lg" style={{ background: "var(--wh-surface-2)" }}>
-            <span className="text-lg">📎</span>
+            <span className="text-lg">File</span>
             <div className="flex-1 min-w-0">
               <p className="text-xs text-[var(--wh-text-muted)]">Uploaded file</p>
               <p className="text-sm font-medium text-[var(--wh-text)] font-mono">{submission.fileType?.toUpperCase()}</p>
             </div>
             {submission.downloadUrl && (
-              
-                href={submission.downloadUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="wh-btn wh-btn-ghost text-xs px-3 py-1.5"
-              >
+              <a href={submission.downloadUrl} target="_blank" rel="noreferrer" className="wh-btn wh-btn-ghost text-xs px-3 py-1.5">
                 Download
               </a>
             )}
@@ -148,7 +136,6 @@ export default function Submission() {
         )}
       </div>
 
-      {/* ── Footer meta ── */}
       {submission && (
         <div className="flex items-center gap-3 flex-wrap">
           <span
