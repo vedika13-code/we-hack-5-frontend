@@ -1,3 +1,186 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ── WE Hack 5.0 design tokens ── */
+:root {
+  --wh-bg: #0a090f;
+  --wh-surface: #12101a;
+  --wh-surface-2: #1c1829;
+  --wh-border: rgba(170, 59, 255, 0.18);
+  --wh-border-muted: rgba(255, 255, 255, 0.07);
+  --wh-accent: #aa3bff;
+  --wh-accent-dim: rgba(170, 59, 255, 0.12);
+  --wh-accent-glow: rgba(170, 59, 255, 0.35);
+  --wh-text: #e2dff0;
+  --wh-text-muted: #7c7a96;
+  --wh-text-heading: #f5f2ff;
+  --wh-success: #34d399;
+  --wh-error: #f87171;
+  --wh-warning: #fbbf24;
+
+  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --mono: ui-monospace, Consolas, monospace;
+}
+
+/* ── Base resets for dark UI ── */
+body {
+  background-color: var(--wh-bg);
+  color: var(--wh-text);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--wh-bg); }
+::-webkit-scrollbar-thumb { background: var(--wh-border); border-radius: 3px; }
+
+/* ── Reusable card ── */
+.wh-card {
+  background: var(--wh-surface);
+  border: 1px solid var(--wh-border-muted);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.wh-card-accent {
+  background: var(--wh-surface);
+  border: 1px solid var(--wh-border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 0 0 1px var(--wh-border), 0 4px 24px var(--wh-accent-glow);
+}
+
+/* ── Input base ── */
+.wh-input {
+  width: 100%;
+  background: var(--wh-surface-2);
+  border: 1px solid var(--wh-border-muted);
+  border-radius: 8px;
+  padding: 0.625rem 0.875rem;
+  color: var(--wh-text);
+  font-size: 0.925rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.wh-input::placeholder { color: var(--wh-text-muted); }
+.wh-input:focus {
+  border-color: var(--wh-accent);
+  box-shadow: 0 0 0 3px var(--wh-accent-dim);
+}
+
+/* ── Button base ── */
+.wh-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  background: var(--wh-accent);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.03em;
+  padding: 0.6rem 1.25rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.15s, box-shadow 0.2s;
+}
+.wh-btn:hover {
+  opacity: 0.9;
+  box-shadow: 0 0 16px var(--wh-accent-glow);
+}
+.wh-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.wh-btn:disabled:hover {
+  box-shadow: none;
+}
+.wh-btn-ghost {
+  background: transparent;
+  border: 1px solid var(--wh-border);
+  color: var(--wh-text);
+}
+.wh-btn-ghost:hover {
+  border-color: var(--wh-accent);
+  color: var(--wh-accent);
+  box-shadow: none;
+  opacity: 1;
+}
+.wh-btn-danger {
+  background: transparent;
+  border: 1px solid rgba(248, 113, 113, 0.3);
+  color: var(--wh-error);
+}
+.wh-btn-danger:hover {
+  background: rgba(248, 113, 113, 0.08);
+  box-shadow: none;
+  opacity: 1;
+}
+
+/* ── Badge ── */
+.wh-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+}
+.wh-badge-purple { background: var(--wh-accent-dim); color: var(--wh-accent); border: 1px solid var(--wh-border); }
+.wh-badge-green  { background: rgba(52,211,153,0.1); color: var(--wh-success); border: 1px solid rgba(52,211,153,0.25); }
+.wh-badge-yellow { background: rgba(251,191,36,0.1); color: var(--wh-warning); border: 1px solid rgba(251,191,36,0.25); }
+.wh-badge-red    { background: rgba(248,113,113,0.1); color: var(--wh-error); border: 1px solid rgba(248,113,113,0.25); }
+
+/* ── Avatar circle ── */
+.wh-avatar {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  background: var(--wh-accent-dim);
+  border: 1.5px solid var(--wh-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--wh-accent);
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+.wh-avatar-lg {
+  width: 4.5rem;
+  height: 4.5rem;
+  font-size: 1.5rem;
+  border: 2px solid var(--wh-accent);
+  box-shadow: 0 0 20px var(--wh-accent-glow);
+}
+
+/* ── Section heading ── */
+.wh-section-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--wh-text-muted);
+  margin-bottom: 0.75rem;
+}
+
+/* ── Divider ── */
+.wh-divider {
+  border: none;
+  border-top: 1px solid var(--wh-border-muted);
+  margin: 1.25rem 0;
+}
+
+/* ── Page wrapper ── */
+.wh-page {
+  min-height: calc(100vh - 64px);
+  padding: 3rem 1.5rem;
+}
