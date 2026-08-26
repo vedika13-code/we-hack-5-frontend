@@ -51,60 +51,187 @@ export default function Team() {
     }
   }
 
-  if (loading) return <div className="p-8 text-center text-slate-500">Loading…</div>;
+  if (loading) {
+    return (
+      <div className="wh-page max-w-2xl mx-auto space-y-4 animate-pulse">
+        <div className="h-8 w-48 rounded-lg bg-wh-surface2" />
+        <div className="wh-card space-y-3">
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="h-4 rounded bg-wh-surface2" />
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   if (!team) {
     return (
-      <div className="max-w-lg mx-auto px-6 py-12 text-center">
-        <p className="text-slate-600 mb-4">You're not on a team yet.</p>
-        <button className="bg-slate-900 text-white rounded px-4 py-2" onClick={() => navigate("/registration")}>
-          Register a team
-        </button>
+      <div className="wh-page max-w-lg mx-auto text-center">
+        <div className="wh-card py-14 flex flex-col items-center gap-5">
+          <span className="text-6xl">🏕</span>
+          <div>
+            <h2 className="text-xl font-bold text-[var(--wh-text-heading)] mb-2">No Team Yet</h2>
+            <p className="text-sm text-[var(--wh-text-muted)]">
+              You haven't joined or created a team. Register now to get started.
+            </p>
+          </div>
+          <button
+            className="wh-btn mt-2"
+            onClick={() => navigate("/registration")}
+          >
+            Register a Team ↗
+          </button>
+        </div>
       </div>
     );
   }
 
   const isLeader = user?.role === "TEAM_LEADER";
 
+  function statusBadge(s: string) {
+    const map: Record<string, string> = {
+      PENDING: "wh-badge-yellow",
+      SUBMITTED: "wh-badge-purple",
+      APPROVED: "wh-badge-green",
+      REJECTED: "wh-badge-red",
+    };
+    return <span className={`wh-badge ${map[s] ?? "wh-badge-purple"}`}>{s}</span>;
+  }
+
+  function memberInitials(name: string) {
+    return name
+      .split(" ")
+      .slice(0, 2)
+      .map((p) => p[0])
+      .join("")
+      .toUpperCase();
+  }
+
   return (
-    <div className="max-w-2xl mx-auto px-6 py-12">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold">{team.name}</h1>
-        <span className="text-sm bg-slate-100 rounded px-3 py-1 font-mono tracking-widest">{team.code}</span>
-      </div>
+    <div className="wh-page max-w-2xl mx-auto">
+      <p className="text-xs tracking-widest uppercase text-[var(--wh-text-muted)] mb-6 font-semibold">
+        WE HACK 5.0 · MY TEAM
+      </p>
 
-      {error && <p className="text-red-600 text-sm mb-4">{error}</p>}
-
-      <div className="space-y-1 text-slate-700 mb-6">
-        <p>College: {team.college}</p>
-        {team.track && <p>Track: {team.track}</p>}
-        {team.ideaTitle && <p>Idea: {team.ideaTitle}</p>}
-        <p>
-          Status: {team.registrationStatus} · Registration{" "}
-          {team.registrationComplete ? "complete ✅" : "not yet finalized"}
-        </p>
-      </div>
-
-      <h2 className="font-semibold mb-2">Members</h2>
-      <ul className="divide-y border rounded mb-6">
-        {team.members?.map((m: any) => (
-          <li key={m.id} className="flex items-center justify-between px-4 py-2">
-            <span>
-              {m.fullName} {m.role === "TEAM_LEADER" && <span className="text-xs text-slate-500">(Leader)</span>}
+      {/* ── Team header ── */}
+      <div className="wh-card-accent mb-6 relative overflow-hidden">
+        <div
+          className="absolute -bottom-8 -right-8 w-40 h-40 rounded-full pointer-events-none opacity-10"
+          style={{ background: "radial-gradient(circle, var(--wh-accent) 0%, transparent 70%)" }}
+        />
+        <div className="relative z-10">
+          <div className="flex items-start justify-between gap-4 flex-wrap mb-4">
+            <div>
+              <h1 className="text-2xl font-bold text-[var(--wh-text-heading)]">{team.name}</h1>
+              {team.college && (
+                <p className="text-sm text-[var(--wh-text-muted)] mt-0.5">{team.college}</p>
+              )}
+            </div>
+            {/* Team code pill */}
+            <span
+              className="font-mono text-xs font-bold tracking-widest px-3 py-1.5 rounded-lg border"
+              style={{
+                background: "var(--wh-accent-dim)",
+                borderColor: "var(--wh-border)",
+                color: "var(--wh-accent)",
+              }}
+            >
+              #{team.code}
             </span>
-            {isLeader && m.role !== "TEAM_LEADER" && (
-              <button className="text-red-600 text-sm" onClick={() => handleRemove(m.id)}>
-                Remove
-              </button>
-            )}
-          </li>
-        ))}
-      </ul>
+          </div>
 
+          {/* Meta */}
+          <div className="flex flex-wrap gap-3">
+            {statusBadge(team.registrationStatus ?? "PENDING")}
+            {team.track && (
+              <span className="wh-badge wh-badge-purple">🔬 {team.track}</span>
+            )}
+            <span
+              className="wh-badge"
+              style={{
+                background: team.registrationComplete ? "rgba(52,211,153,0.1)" : "rgba(251,191,36,0.1)",
+                color: team.registrationComplete ? "var(--wh-success)" : "var(--wh-warning)",
+                border: `1px solid ${team.registrationComplete ? "rgba(52,211,153,0.25)" : "rgba(251,191,36,0.25)"}`,
+              }}
+            >
+              {team.registrationComplete ? "✅ Finalized" : "⏳ Not Finalized"}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {error && (
+        <div className="mb-4 px-4 py-2.5 rounded-lg border text-sm" style={{ background: "rgba(248,113,113,0.08)", borderColor: "rgba(248,113,113,0.25)", color: "var(--wh-error)" }}>
+          {error}
+        </div>
+      )}
+
+      {/* ── Idea ── */}
+      {(team.ideaTitle || team.ideaDescription) && (
+        <div className="wh-card mb-6">
+          <p className="wh-section-label">💡 Project Idea</p>
+          {team.ideaTitle && (
+            <h3 className="font-semibold text-[var(--wh-text-heading)] mb-1">{team.ideaTitle}</h3>
+          )}
+          {team.ideaDescription && (
+            <p className="text-sm text-[var(--wh-text-muted)] leading-relaxed">{team.ideaDescription}</p>
+          )}
+        </div>
+      )}
+
+      {/* ── Members ── */}
+      <div className="wh-card mb-6">
+        <p className="wh-section-label">👥 Members</p>
+        <ul className="space-y-0">
+          {team.members?.map((m: any) => (
+            <li
+              key={m.id}
+              className="flex items-center justify-between py-3 border-b border-[var(--wh-border-muted)] last:border-0"
+            >
+              <div className="flex items-center gap-3">
+                <div className="wh-avatar">{memberInitials(m.fullName ?? "?")}</div>
+                <div>
+                  <p className="text-sm font-medium text-[var(--wh-text)]">{m.fullName}</p>
+                  {m.email && (
+                    <p className="text-xs text-[var(--wh-text-muted)] font-mono">{m.email}</p>
+                  )}
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                {m.role === "TEAM_LEADER" ? (
+                  <span className="wh-badge wh-badge-purple">Leader</span>
+                ) : (
+                  <span className="wh-badge" style={{ background: "var(--wh-surface-2)", color: "var(--wh-text-muted)", border: "1px solid var(--wh-border-muted)" }}>
+                    Member
+                  </span>
+                )}
+                {isLeader && m.role !== "TEAM_LEADER" && (
+                  <button
+                    className="wh-btn wh-btn-danger text-xs px-2.5 py-1"
+                    onClick={() => handleRemove(m.id)}
+                  >
+                    Remove
+                  </button>
+                )}
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* ── Finalize CTA ── */}
       {isLeader && !team.registrationComplete && (
-        <button className="bg-slate-900 text-white rounded px-4 py-2" onClick={handleFinalize}>
-          Finalize registration
-        </button>
+        <div className="wh-card border-[var(--wh-border)] bg-[var(--wh-accent-dim)] flex items-center justify-between gap-4 flex-wrap">
+          <div>
+            <p className="font-semibold text-[var(--wh-text-heading)] text-sm">Ready to lock in?</p>
+            <p className="text-xs text-[var(--wh-text-muted)] mt-0.5">
+              Finalizing locks your team roster and submits your registration.
+            </p>
+          </div>
+          <button className="wh-btn flex-shrink-0" onClick={handleFinalize}>
+            Finalize Registration ✓
+          </button>
+        </div>
       )}
     </div>
   );
