@@ -14,13 +14,16 @@ export function Dropdown({ label, children }: { label: string; children: ReactNo
 
   return (
     <div className="relative" ref={ref}>
-      <button onClick={() => setOpen(!open)} className="flex items-center gap-1">
+      <button
+        onClick={() => setOpen(!open)}
+        className="flex items-center gap-1 text-[#8f8b82] hover:text-[#dcff91] transition-colors"
+      >
         {label} <span className="text-xs">▾</span>
       </button>
       {open && (
         <div
           onClick={() => setOpen(false)}
-          className="absolute right-0 mt-2 w-56 bg-white border rounded shadow-lg py-1 z-20"
+          className="absolute right-0 mt-2 w-56 bg-[#171814] border border-[#f2eee526] rounded shadow-lg py-1 z-20"
         >
           {children}
         </div>
