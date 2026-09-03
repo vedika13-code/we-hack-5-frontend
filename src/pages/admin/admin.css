@@ -13,6 +13,12 @@
   --admin-line: rgba(242, 238, 229, 0.15);
   --admin-muted: #8f8b82;
 
+  /* Aliases — some components reference these names; keep them pointed at the
+     canonical tokens so a typo doesn't silently drop a color. */
+  --admin-bg: var(--admin-ink);
+  --admin-text: var(--admin-paper);
+  --admin-lime: var(--admin-accent);
+
   --font-ui: 'DM Sans', system-ui, sans-serif;
   --font-display: 'Oswald', sans-serif;
   --font-serif: 'Playfair Display', Georgia, serif;

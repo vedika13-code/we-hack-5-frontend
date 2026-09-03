@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { api } from "../lib/api";
 
 export default function ForgotPassword() {
@@ -17,32 +18,72 @@ export default function ForgotPassword() {
     }
   }
 
-  if (sent) {
-    return (
-      <div className="max-w-sm mx-auto px-6 py-16 text-center">
-        <h1 className="text-2xl font-bold mb-4">Check your email</h1>
-        <p className="text-slate-600">
-          If an account exists for <strong>{email}</strong>, a password reset link has been sent. It expires in 1 hour.
-        </p>
-      </div>
-    );
-  }
-
   return (
-    <div className="max-w-sm mx-auto px-6 py-16">
-      <h1 className="text-2xl font-bold mb-6">Forgot password</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input
-          className="w-full border rounded px-3 py-2"
-          placeholder="Email"
-          type="email"
-          required
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        {error && <p className="text-red-600 text-sm">{error}</p>}
-        <button className="w-full bg-slate-900 text-white rounded px-3 py-2">Send reset link</button>
-      </form>
+    <div className="min-h-[calc(100vh-64px)] flex items-center justify-center px-4">
+      <div className="w-full max-w-sm">
+        <div className="wh-card-accent">
+          <div className="mb-8">
+            <p className="text-xs tracking-widest uppercase font-semibold mb-2" style={{ color: "var(--wh-accent)" }}>
+              WE HACK 5.0
+            </p>
+            <h1 className="text-2xl font-bold font-display uppercase" style={{ color: "var(--wh-text-heading)" }}>
+              {sent ? "Check your email" : "Forgot password"}
+            </h1>
+          </div>
+
+          {sent ? (
+            <p className="text-sm leading-relaxed" style={{ color: "var(--wh-text-muted)" }}>
+              If an account exists for <strong style={{ color: "var(--wh-text)" }}>{email}</strong>, a password reset
+              link has been sent. It expires in 1 hour.
+            </p>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label
+                  className="block text-xs font-semibold uppercase tracking-wider mb-1.5"
+                  style={{ color: "var(--wh-text-muted)" }}
+                >
+                  Email
+                </label>
+                <input
+                  className="wh-input"
+                  placeholder="you@college.edu"
+                  type="email"
+                  required
+                  autoComplete="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+
+              {error && (
+                <div
+                  className="rounded-lg border px-3 py-2.5 text-sm"
+                  style={{
+                    background: "rgba(248,113,113,0.08)",
+                    borderColor: "rgba(248,113,113,0.25)",
+                    color: "var(--wh-error)",
+                  }}
+                >
+                  {error}
+                </div>
+              )}
+
+              <button type="submit" className="wh-btn w-full justify-center py-2.5 mt-2">
+                Send reset link
+              </button>
+            </form>
+          )}
+
+          <div className="mt-5 pt-5 border-t" style={{ borderColor: "var(--wh-border-muted)" }}>
+            <p className="text-sm" style={{ color: "var(--wh-text-muted)" }}>
+              <Link to="/login" className="font-semibold" style={{ color: "var(--wh-accent)" }}>
+                Back to log in
+              </Link>
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

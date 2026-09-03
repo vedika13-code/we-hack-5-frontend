@@ -54,7 +54,7 @@ function MentorCard({ mentor }: { mentor: any }) {
   return (
     <div className="rounded-xl border border-[var(--admin-line)] admin-card hover:shadow-md hover:border-[var(--admin-pink)] transition-all duration-200 flex flex-col overflow-hidden">
       {/* accent top strip */}
-      <div className="h-1 w-full bg-gradient-to-r from-purple-500 to-violet-400" />
+      <div className="h-1 w-full bg-gradient-to-r from-[var(--admin-lime)] to-[var(--admin-pink)]" />
 
       <div className="p-4 flex flex-col items-center text-center gap-2 flex-1">
         <AvatarWithFallback src={mentor.photoUrl} name={mentor.name} />
@@ -135,7 +135,7 @@ export default function Mentors() {
                 placeholder="Search by name or expertise…"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full pl-9 pr-4 py-2.5 text-sm rounded-lg border border-[var(--admin-line)] admin-card focus:outline-none focus:ring-2 focus:ring-[var(--admin-lime)] focus:border-transparent placeholder-slate-400"
+                className="w-full pl-9 pr-4 py-2.5 text-sm rounded-lg border border-[var(--admin-line)] admin-card focus:outline-none focus:ring-2 focus:ring-[var(--admin-lime)] focus:border-transparent placeholder-[var(--admin-muted)]"
               />
             </div>
           </div>

@@ -1,26 +1,34 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..800;1,9..40,400..800&family=Oswald:wght@500;700&family=Playfair+Display:ital,wght@0,400..800;1,400..800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* ── WE Hack 5.0 design tokens ── */
+/* ── WE HACK 5.0 design tokens — editorial theme (matches the landing page) ── */
 :root {
-  --wh-bg: #0a090f;
-  --wh-surface: #12101a;
-  --wh-surface-2: #1c1829;
-  --wh-border: rgba(170, 59, 255, 0.18);
-  --wh-border-muted: rgba(255, 255, 255, 0.07);
-  --wh-accent: #aa3bff;
-  --wh-accent-dim: rgba(170, 59, 255, 0.12);
-  --wh-accent-glow: rgba(170, 59, 255, 0.35);
-  --wh-text: #e2dff0;
-  --wh-text-muted: #7c7a96;
-  --wh-text-heading: #f5f2ff;
-  --wh-success: #34d399;
+  --wh-bg: #0a0b0a;
+  --wh-surface: #171814;
+  --wh-surface-2: #12100d;
+  --wh-border: rgba(242, 238, 229, 0.15);
+  --wh-border-muted: rgba(242, 238, 229, 0.08);
+  --wh-accent: #dcff91;          /* acid lime — the primary accent */
+  --wh-accent-dim: rgba(220, 255, 145, 0.12);
+  --wh-accent-glow: rgba(220, 255, 145, 0.22);
+  --wh-text: #f2eee5;            /* cream / paper */
+  --wh-text-muted: #8f8b82;
+  --wh-text-heading: #f2eee5;
+  --wh-paper-dim: #d4cec2;
+  --wh-maroon: #6d1234;
+  --wh-pink: #ee9ab6;
+  --wh-gold: #efc66e;
+  --wh-success: #7bbf6a;
   --wh-error: #f87171;
-  --wh-warning: #fbbf24;
+  --wh-warning: #efc66e;
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --sans: 'DM Sans', system-ui, 'Segoe UI', Roboto, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
+  --font-display: 'Oswald', sans-serif;
+  --font-serif: 'Playfair Display', Georgia, serif;
 }
 
 /* ── Base resets for dark UI ── */
@@ -32,10 +40,58 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+::selection {
+  background: var(--wh-accent);
+  color: var(--wh-bg);
+}
+
+/* ── Font utilities (previously only defined inside Home.tsx, so they broke on
+   every other route — now global so the navbar/footer/auth pages match) ── */
+.font-display { font-family: var(--font-display); }
+.font-serif   { font-family: var(--font-serif); }
+.font-ui      { font-family: var(--sans); }
+.app-shell    { width: 100%; }
+
 /* ── Scrollbar ── */
-::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-track { background: var(--wh-bg); }
-::-webkit-scrollbar-thumb { background: var(--wh-border); border-radius: 3px; }
+::-webkit-scrollbar-thumb { background: var(--wh-border); border-radius: 0; }
+::-webkit-scrollbar-thumb:hover { background: var(--wh-accent); }
+* { scrollbar-color: var(--wh-border) var(--wh-bg); }
+
+/* ── Landing-style buttons (used by Home + About, previously scoped to Home) ── */
+.btn-primary {
+  background: var(--wh-accent);
+  color: var(--wh-bg);
+  font-family: var(--sans);
+  letter-spacing: 0.1em;
+  border: 1px solid var(--wh-accent);
+  box-shadow: 6px 6px 0 var(--wh-maroon);
+  font-weight: 800;
+  text-transform: uppercase;
+  transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+}
+.btn-primary:hover {
+  box-shadow: 4px 4px 0 var(--wh-maroon);
+  background: var(--wh-text);
+  transform: translate(2px, 2px);
+}
+.btn-secondary {
+  background: transparent;
+  color: var(--wh-text);
+  font-family: var(--sans);
+  letter-spacing: 0.1em;
+  border: 1px solid var(--wh-border);
+  box-shadow: 4px 4px 0 var(--wh-surface);
+  font-weight: 800;
+  text-transform: uppercase;
+  transition: all 0.2s;
+}
+.btn-secondary:hover {
+  border-color: var(--wh-accent);
+  color: var(--wh-accent);
+  transform: translate(2px, 2px);
+}
 
 /* ── Reusable card ── */
 .wh-card {
@@ -77,27 +133,23 @@ body {
   align-items: center;
   gap: 0.375rem;
   background: var(--wh-accent);
-  color: #fff;
-  font-weight: 600;
-  font-size: 0.875rem;
-  letter-spacing: 0.03em;
+  color: var(--wh-bg);
+  font-weight: 800;
+  font-size: 0.8125rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   padding: 0.6rem 1.25rem;
   border-radius: 8px;
   border: none;
   cursor: pointer;
-  transition: opacity 0.15s, box-shadow 0.2s;
+  transition: opacity 0.15s;
 }
 .wh-btn:hover {
   opacity: 0.9;
-  box-shadow: 0 0 16px var(--wh-accent-glow);
 }
 .wh-btn:disabled {
   cursor: not-allowed;
-  opacity: 0.6;
-}
-
-.wh-btn:disabled:hover {
-  box-shadow: none;
+  opacity: 0.5;
 }
 .wh-btn-ghost {
   background: transparent;
@@ -107,7 +159,6 @@ body {
 .wh-btn-ghost:hover {
   border-color: var(--wh-accent);
   color: var(--wh-accent);
-  box-shadow: none;
   opacity: 1;
 }
 .wh-btn-danger {
@@ -117,7 +168,6 @@ body {
 }
 .wh-btn-danger:hover {
   background: rgba(248, 113, 113, 0.08);
-  box-shadow: none;
   opacity: 1;
 }
 
@@ -133,9 +183,10 @@ body {
   padding: 0.2rem 0.6rem;
   border-radius: 999px;
 }
-.wh-badge-purple { background: var(--wh-accent-dim); color: var(--wh-accent); border: 1px solid var(--wh-border); }
-.wh-badge-green  { background: rgba(52,211,153,0.1); color: var(--wh-success); border: 1px solid rgba(52,211,153,0.25); }
-.wh-badge-yellow { background: rgba(251,191,36,0.1); color: var(--wh-warning); border: 1px solid rgba(251,191,36,0.25); }
+.wh-badge-purple,
+.wh-badge-accent { background: var(--wh-accent-dim); color: var(--wh-accent); border: 1px solid var(--wh-border); }
+.wh-badge-green  { background: rgba(123,191,106,0.12); color: var(--wh-success); border: 1px solid rgba(123,191,106,0.28); }
+.wh-badge-yellow { background: rgba(239,198,110,0.12); color: var(--wh-warning); border: 1px solid rgba(239,198,110,0.28); }
 .wh-badge-red    { background: rgba(248,113,113,0.1); color: var(--wh-error); border: 1px solid rgba(248,113,113,0.25); }
 
 /* ── Avatar circle ── */
