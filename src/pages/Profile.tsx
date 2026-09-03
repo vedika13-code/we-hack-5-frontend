@@ -64,12 +64,8 @@ export default function Profile() {
       </p>
 
       {/* ── Identity card ── */}
-      <div className="wh-card-accent mb-6 relative overflow-hidden">
-        <div
-          className="absolute -top-10 -left-10 w-40 h-40 rounded-full pointer-events-none opacity-15"
-          style={{ background: "radial-gradient(circle, var(--wh-accent) 0%, transparent 70%)" }}
-        />
-        <div className="relative z-10 flex items-center gap-5">
+      <div className="wh-card-accent mb-6">
+        <div className="flex items-center gap-5">
           {/* Avatar */}
           <div
             className="wh-avatar wh-avatar-lg flex-shrink-0"

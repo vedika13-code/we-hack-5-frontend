@@ -76,11 +76,10 @@ export default function Registration() {
           <button
             key={tab}
             onClick={() => setMode(tab)}
-            className="flex-1 text-sm font-semibold py-2.5 rounded-lg transition-all duration-200"
+            className="flex-1 text-sm font-bold uppercase tracking-wide py-2.5 rounded-lg transition-all duration-200"
             style={{
-              background: mode === tab ? "var(--wh-accent)" : "transparent",
-              color: mode === tab ? "#fff" : "var(--wh-text-muted)",
-              boxShadow: mode === tab ? "0 0 16px var(--wh-accent-glow)" : "none",
+              background: mode === tab ? "var(--wh-text)" : "transparent",
+              color: mode === tab ? "var(--wh-bg)" : "var(--wh-text-muted)",
             }}
           >
             {tab === "create" ? "🚀 Create a Team" : "🔗 Join with Code"}
