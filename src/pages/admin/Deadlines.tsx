@@ -55,8 +55,8 @@ export default function Dashboard() {
             {user.team?.registrationComplete ? "" : " — finish finalizing your team on the Team page"}.
           </p>
           <div className="flex gap-4 text-sm pt-2">
-            <Link to="/team" className="underline" style={{ color: "var(--wh-accent)" }}>View Team →</Link>
-            <Link to="/submission" className="underline" style={{ color: "var(--wh-accent)" }}>Go to Submission →</Link>
+            <Link to="/team" className="underline" style={{ color: "var(--wh-pink)" }}>View Team →</Link>
+            <Link to="/submission" className="underline" style={{ color: "var(--wh-pink)" }}>Go to Submission →</Link>
           </div>
         </div>
       )}
