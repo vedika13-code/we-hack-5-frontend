@@ -30,6 +30,8 @@ export const api = {
     if (result.token) setAuthToken(result.token);
     return result;
   },
+  resendOtp: (email: string) =>
+    request("/auth/resend-otp", { method: "POST", body: JSON.stringify({ email }) }),
   login: async (body: { email: string; password: string }) => {
     const result = await request("/auth/login", { method: "POST", body: JSON.stringify(body) });
     if (result.token) setAuthToken(result.token);
@@ -68,20 +70,36 @@ export const api = {
     request("/submissions/link", { method: "POST", body: JSON.stringify({ projectLink }) }),
   updateChecklist: (checklist: Record<string, boolean>) =>
     request("/submissions/checklist", { method: "PUT", body: JSON.stringify(checklist) }),
+  // Direct-to-storage upload: ask the API for a presigned URL, PUT the file
+  // straight to Supabase, then tell the API it landed. The file never goes
+  // through our server.
   uploadSubmissionFile: async (file: File) => {
-    const formData = new FormData();
-    formData.append("file", file);
-    const headers: Record<string, string> = {};
-    if (authToken) headers["Authorization"] = `Bearer ${authToken}`;
-    const res = await fetch(`${API_URL}/submissions/file`, {
+    // Some browsers/OSes leave file.type empty for .zip/.pptx — fall back to the
+    // extension so the backend MIME check doesn't reject a valid file.
+    const byExt: Record<string, string> = {
+      pdf: "application/pdf",
+      ppt: "application/vnd.ms-powerpoint",
+      pptx: "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+      zip: "application/zip",
+    };
+    const ext = file.name.split(".").pop()?.toLowerCase() ?? "";
+    const contentType = file.type || byExt[ext] || "application/octet-stream";
+    const ticket = await request("/submissions/file/presign", {
       method: "POST",
-      credentials: "include",
-      headers,
-      body: formData,
+      body: JSON.stringify({ filename: file.name, contentType }),
     });
-    const data = await res.json().catch(() => null);
-    if (!res.ok) throw new Error(data?.error || "Upload failed");
-    return data;
+
+    const putRes = await fetch(ticket.uploadUrl, {
+      method: "PUT",
+      headers: { "Content-Type": contentType },
+      body: file,
+    });
+    if (!putRes.ok) throw new Error("Upload to storage failed — please try again.");
+
+    return request("/submissions/file/confirm", {
+      method: "POST",
+      body: JSON.stringify({ key: ticket.key, contentType }),
+    });
   },
 
   getNotifications: () => request("/notifications"),
