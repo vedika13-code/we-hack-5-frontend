@@ -135,7 +135,7 @@ export default function VerifyEmail() {
               onClick={handleResend}
               disabled={cooldown > 0}
               className="font-semibold disabled:opacity-60"
-              style={{ color: "var(--wh-accent)" }}
+              style={{ color: "var(--wh-pink)" }}
             >
               {cooldown > 0 ? `Resend code in ${cooldown}s` : "Resend code"}
             </button>

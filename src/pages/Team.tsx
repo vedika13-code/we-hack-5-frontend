@@ -92,11 +92,11 @@ export default function Team() {
   function statusBadge(s: string) {
     const map: Record<string, string> = {
       PENDING: "border-[var(--admin-gold)] text-[var(--admin-gold)]",
-      SUBMITTED: "border-[var(--admin-lime)] text-[var(--admin-lime)]",
-      APPROVED: "border-[var(--admin-lime)] text-[var(--admin-lime)]",
+      SUBMITTED: "border-[var(--admin-line)] text-[var(--admin-paper-dim)]",
+      APPROVED: "border-[var(--admin-line)] text-[var(--admin-paper-dim)]",
       REJECTED: "border-[var(--admin-pink)] text-[var(--admin-pink)]",
     };
-    return <span className={`admin-badge ${map[s] ?? "border-[var(--admin-lime)] text-[var(--admin-lime)]"}`}>{s}</span>;
+    return <span className={`admin-badge ${map[s] ?? "border-[var(--admin-line)] text-[var(--admin-paper-dim)]"}`}>{s}</span>;
   }
 
   function memberInitials(name: string) {
@@ -115,49 +115,42 @@ export default function Team() {
       </p>
 
       {/* ── Team header ── */}
-      <div className="admin-card border-[var(--admin-lime)] mb-6 relative overflow-hidden">
-        <div
-          className="absolute -bottom-8 -right-8 w-40 h-40 rounded-full pointer-events-none opacity-10"
-          style={{ background: "radial-gradient(circle, var(--admin-lime) 0%, transparent 70%)" }}
-        />
-        <div className="relative z-10">
-          <div className="flex items-start justify-between gap-4 flex-wrap mb-4">
-            <div>
-              <h1 className="text-2xl font-bold text-[var(--admin-paper)]">{team.name}</h1>
-              {team.college && (
-                <p className="text-sm text-[var(--admin-muted)] mt-0.5">{team.college}</p>
-              )}
-            </div>
-            {/* Team code pill */}
-            <span
-              className="font-mono text-xs font-bold tracking-widest px-3 py-1.5 rounded-lg border"
-              style={{
-                background: "rgba(220,255,145,0.05)",
-                borderColor: "var(--admin-lime)",
-                color: "var(--admin-lime)",
-              }}
-            >
-              #{team.code}
-            </span>
-          </div>
-
-          {/* Meta */}
-          <div className="flex flex-wrap gap-3">
-            {statusBadge(team.registrationStatus ?? "PENDING")}
-            {team.track && (
-              <span className="admin-badge border-[var(--admin-lime)] text-[var(--admin-lime)]">🔬 {team.track}</span>
+      <div
+        className="admin-card mb-6"
+        style={{ borderColor: "var(--admin-line)", boxShadow: "6px 6px 0 var(--admin-maroon)" }}
+      >
+        <div className="flex items-start justify-between gap-4 flex-wrap mb-4">
+          <div>
+            <h1 className="text-2xl font-bold text-[var(--admin-paper)]">{team.name}</h1>
+            {team.college && (
+              <p className="text-sm text-[var(--admin-muted)] mt-0.5">{team.college}</p>
             )}
-            <span
-              className="admin-badge"
-              style={{
-                background: team.registrationComplete ? "rgba(52,211,153,0.1)" : "rgba(251,191,36,0.1)",
-                color: team.registrationComplete ? "var(--admin-lime)" : "var(--admin-gold)",
-                border: `1px solid ${team.registrationComplete ? "rgba(52,211,153,0.25)" : "rgba(251,191,36,0.25)"}`,
-              }}
-            >
-              {team.registrationComplete ? "✅ Finalized" : "⏳ Not Finalized"}
-            </span>
           </div>
+          {/* Team code pill */}
+          <span
+            className="font-mono text-xs font-bold tracking-widest px-3 py-1.5 rounded-lg border"
+            style={{ borderColor: "var(--admin-line)", color: "var(--admin-paper)" }}
+          >
+            #{team.code}
+          </span>
+        </div>
+
+        {/* Meta */}
+        <div className="flex flex-wrap gap-3">
+          {statusBadge(team.registrationStatus ?? "PENDING")}
+          {team.track && (
+            <span className="admin-badge border-[var(--admin-pink)] text-[var(--admin-pink)]">🔬 {team.track}</span>
+          )}
+          <span
+            className="admin-badge"
+            style={
+              team.registrationComplete
+                ? { color: "#7bbf6a", border: "1px solid rgba(123,191,106,0.4)" }
+                : { color: "var(--admin-gold)", border: "1px solid var(--admin-gold)" }
+            }
+          >
+            {team.registrationComplete ? "✓ Finalized" : "Not Finalized"}
+          </span>
         </div>
       </div>
 
@@ -200,7 +193,7 @@ export default function Team() {
               </div>
               <div className="flex items-center gap-3">
                 {m.role === "TEAM_LEADER" ? (
-                  <span className="admin-badge border-[var(--admin-lime)] text-[var(--admin-lime)]">Leader</span>
+                  <span className="admin-badge border-[var(--admin-pink)] text-[var(--admin-pink)]">Leader</span>
                 ) : (
                   <span className="admin-badge" style={{ background: "var(--admin-ink)", color: "var(--admin-muted)", border: "1px solid var(--admin-line)" }}>
                     Member
@@ -222,7 +215,10 @@ export default function Team() {
 
       {/* ── Finalize CTA ── */}
       {isLeader && !team.registrationComplete && (
-        <div className="admin-card border-[var(--admin-lime)] bg-[rgba(220,255,145,0.05)] flex items-center justify-between gap-4 flex-wrap">
+        <div
+          className="admin-card flex items-center justify-between gap-4 flex-wrap"
+          style={{ borderColor: "var(--admin-line)", boxShadow: "6px 6px 0 var(--admin-maroon)" }}
+        >
           <div>
             <p className="font-semibold text-[var(--admin-paper)] text-sm">Ready to lock in?</p>
             <p className="text-xs text-[var(--admin-muted)] mt-0.5">

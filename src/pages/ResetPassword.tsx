@@ -53,7 +53,7 @@ export default function ResetPassword() {
         <p className="text-sm mb-4" style={{ color: "var(--wh-text-muted)" }}>
           This reset link is missing or malformed.
         </p>
-        <Link to="/forgot-password" className="font-semibold text-sm" style={{ color: "var(--wh-accent)" }}>
+        <Link to="/forgot-password" className="font-semibold text-sm" style={{ color: "var(--wh-pink)" }}>
           Request a new one
         </Link>
       </AuthCard>

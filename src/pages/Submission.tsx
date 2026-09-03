@@ -93,7 +93,7 @@ export default function Submission() {
         {submission?.projectLink && (
           <div className="mt-3 flex items-center gap-2">
             <span className="text-xs text-[var(--admin-muted)]">Current:</span>
-            <a href={submission.projectLink} target="_blank" rel="noreferrer" className="text-xs font-mono text-[var(--admin-lime)] hover:underline truncate">
+            <a href={submission.projectLink} target="_blank" rel="noreferrer" className="text-xs font-mono text-[var(--admin-pink)] hover:underline truncate">
               {submission.projectLink}
             </a>
           </div>
@@ -103,7 +103,7 @@ export default function Submission() {
       <div className="admin-card mb-6">
         <p className="admin-label">Upload a File</p>
         <label
-          className="flex flex-col items-center gap-3 border-2 border-dashed rounded-xl p-8 cursor-pointer transition-colors hover:border-[var(--admin-lime)]"
+          className="flex flex-col items-center gap-3 border-2 border-dashed rounded-xl p-8 cursor-pointer transition-colors hover:border-[var(--admin-pink)]"
           style={{ borderColor: "var(--admin-line)" }}
         >
           <span className="text-3xl">{uploading ? "Uploading" : "Upload"}</span>
@@ -148,7 +148,7 @@ export default function Submission() {
           <span
             className={`admin-badge ${
               submission.status === "APPROVED"
-                ? "border-[var(--admin-lime)] text-[var(--admin-lime)]"
+                ? "border-[var(--admin-line)] text-[var(--admin-paper-dim)]"
                 : submission.status === "REJECTED"
                 ? "border-[var(--admin-pink)] text-[var(--admin-pink)]"
                 : "border-[var(--admin-gold)] text-[var(--admin-gold)]"

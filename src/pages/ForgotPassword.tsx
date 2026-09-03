@@ -77,7 +77,7 @@ export default function ForgotPassword() {
 
           <div className="mt-5 pt-5 border-t" style={{ borderColor: "var(--wh-border-muted)" }}>
             <p className="text-sm" style={{ color: "var(--wh-text-muted)" }}>
-              <Link to="/login" className="font-semibold" style={{ color: "var(--wh-accent)" }}>
+              <Link to="/login" className="font-semibold" style={{ color: "var(--wh-pink)" }}>
                 Back to log in
               </Link>
             </p>

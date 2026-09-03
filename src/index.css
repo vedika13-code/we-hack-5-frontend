@@ -56,8 +56,12 @@ body {
 ::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-track { background: var(--wh-bg); }
 ::-webkit-scrollbar-thumb { background: var(--wh-border); border-radius: 0; }
-::-webkit-scrollbar-thumb:hover { background: var(--wh-accent); }
+::-webkit-scrollbar-thumb:hover { background: rgba(242, 238, 229, 0.35); }
 * { scrollbar-color: var(--wh-border) var(--wh-bg); }
+
+/* ── Link accent — pink by default, lime on hover (matches the navbar) ── */
+.wh-link { color: var(--wh-pink); transition: color 0.15s; }
+.wh-link:hover { color: var(--wh-accent); }
 
 /* ── Landing-style buttons (used by Home + About, previously scoped to Home) ── */
 .btn-primary {
@@ -97,16 +101,17 @@ body {
 .wh-card {
   background: var(--wh-surface);
   border: 1px solid var(--wh-border-muted);
-  border-radius: 12px;
+  border-radius: 4px;
   padding: 1.5rem;
 }
 
+/* Emphasis card — the editorial hard maroon offset shadow, not a neon glow */
 .wh-card-accent {
   background: var(--wh-surface);
   border: 1px solid var(--wh-border);
-  border-radius: 12px;
+  border-radius: 4px;
   padding: 1.5rem;
-  box-shadow: 0 0 0 1px var(--wh-border), 0 4px 24px var(--wh-accent-glow);
+  box-shadow: 6px 6px 0 var(--wh-maroon);
 }
 
 /* ── Input base ── */
@@ -119,56 +124,65 @@ body {
   color: var(--wh-text);
   font-size: 0.925rem;
   outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: border-color 0.2s;
 }
 .wh-input::placeholder { color: var(--wh-text-muted); }
 .wh-input:focus {
   border-color: var(--wh-accent);
-  box-shadow: 0 0 0 3px var(--wh-accent-dim);
 }
 
-/* ── Button base ── */
+/* ── Button base — editorial: lime fill, hard maroon offset shadow, shift on hover ── */
 .wh-btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.375rem;
+  justify-content: center;
+  gap: 0.5rem;
   background: var(--wh-accent);
   color: var(--wh-bg);
   font-weight: 800;
   font-size: 0.8125rem;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  padding: 0.6rem 1.25rem;
-  border-radius: 8px;
-  border: none;
+  padding: 0.65rem 1.25rem;
+  border-radius: 2px;
+  border: 1px solid var(--wh-accent);
+  box-shadow: 4px 4px 0 var(--wh-maroon);
   cursor: pointer;
-  transition: opacity 0.15s;
+  transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
 }
 .wh-btn:hover {
-  opacity: 0.9;
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--wh-maroon);
+  background: var(--wh-text);
 }
 .wh-btn:disabled {
   cursor: not-allowed;
   opacity: 0.5;
+  transform: none;
+  box-shadow: 2px 2px 0 var(--wh-maroon);
 }
 .wh-btn-ghost {
   background: transparent;
   border: 1px solid var(--wh-border);
   color: var(--wh-text);
+  box-shadow: 4px 4px 0 var(--wh-surface);
 }
 .wh-btn-ghost:hover {
   border-color: var(--wh-accent);
   color: var(--wh-accent);
-  opacity: 1;
+  background: transparent;
 }
 .wh-btn-danger {
   background: transparent;
-  border: 1px solid rgba(248, 113, 113, 0.3);
-  color: var(--wh-error);
+  border: 1px solid var(--wh-pink);
+  color: var(--wh-pink);
+  box-shadow: none;
 }
 .wh-btn-danger:hover {
-  background: rgba(248, 113, 113, 0.08);
-  opacity: 1;
+  background: var(--wh-pink);
+  color: var(--wh-bg);
+  transform: none;
+  box-shadow: none;
 }
 
 /* ── Badge ── */
@@ -184,24 +198,25 @@ body {
   border-radius: 999px;
 }
 .wh-badge-purple,
-.wh-badge-accent { background: var(--wh-accent-dim); color: var(--wh-accent); border: 1px solid var(--wh-border); }
+.wh-badge-accent { background: transparent; color: var(--wh-pink); border: 1px solid var(--wh-pink); }
+.wh-badge-lime  { background: transparent; color: var(--wh-accent); border: 1px solid var(--wh-accent); }
 .wh-badge-green  { background: rgba(123,191,106,0.12); color: var(--wh-success); border: 1px solid rgba(123,191,106,0.28); }
 .wh-badge-yellow { background: rgba(239,198,110,0.12); color: var(--wh-warning); border: 1px solid rgba(239,198,110,0.28); }
 .wh-badge-red    { background: rgba(248,113,113,0.1); color: var(--wh-error); border: 1px solid rgba(248,113,113,0.25); }
 
-/* ── Avatar circle ── */
+/* ── Avatar (square, editorial) ── */
 .wh-avatar {
   width: 2.25rem;
   height: 2.25rem;
-  border-radius: 50%;
-  background: var(--wh-accent-dim);
-  border: 1.5px solid var(--wh-border);
+  border-radius: 2px;
+  background: transparent;
+  border: 1px solid var(--wh-border);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 0.8rem;
-  font-weight: 700;
-  color: var(--wh-accent);
+  font-weight: 800;
+  color: var(--wh-pink);
   text-transform: uppercase;
   flex-shrink: 0;
 }
@@ -209,8 +224,9 @@ body {
   width: 4.5rem;
   height: 4.5rem;
   font-size: 1.5rem;
-  border: 2px solid var(--wh-accent);
-  box-shadow: 0 0 20px var(--wh-accent-glow);
+  border: 1px solid var(--wh-pink);
+  color: var(--wh-pink);
+  box-shadow: 4px 4px 0 var(--wh-maroon);
 }
 
 /* ── Section heading ── */

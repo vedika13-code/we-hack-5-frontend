@@ -20,11 +20,11 @@ export default function Dashboard() {
     if (!s) return <span className="admin-badge border-[var(--admin-gold)] text-[var(--admin-gold)]">No Team</span>;
     const map: Record<string, string> = {
       PENDING: "border-[var(--admin-gold)] text-[var(--admin-gold)]",
-      SUBMITTED: "border-[var(--admin-lime)] text-[var(--admin-lime)]",
-      APPROVED: "border-[var(--admin-lime)] text-[var(--admin-lime)]",
+      SUBMITTED: "border-[var(--admin-line)] text-[var(--admin-paper-dim)]",
+      APPROVED: "border-[var(--admin-line)] text-[var(--admin-paper-dim)]",
       REJECTED: "border-[var(--admin-pink)] text-[var(--admin-pink)]",
     };
-    return <span className={`admin-badge ${map[s] ?? "border-[var(--admin-lime)] text-[var(--admin-lime)]"}`}>{s}</span>;
+    return <span className={`admin-badge ${map[s] ?? "border-[var(--admin-line)] text-[var(--admin-paper-dim)]"}`}>{s}</span>;
   }
 
   const quickActions = [
@@ -66,15 +66,10 @@ export default function Dashboard() {
     <div className="admin-theme wh-page max-w-4xl mx-auto">
       {/* ── Hero greeting ── */}
       <div
-        className="admin-card border-[var(--admin-lime)] mb-8 relative overflow-hidden"
-        style={{ minHeight: "140px" }}
+        className="admin-card mb-8"
+        style={{ minHeight: "140px", borderColor: "var(--admin-line)", boxShadow: "6px 6px 0 var(--admin-maroon)" }}
       >
-        {/* Glow orb */}
-        <div
-          className="absolute -top-12 -right-12 w-56 h-56 rounded-full pointer-events-none opacity-20"
-          style={{ background: "radial-gradient(circle, var(--admin-lime) 0%, transparent 70%)" }}
-        />
-        <div className="relative z-10">
+        <div>
           <p className="text-xs tracking-widest uppercase text-[var(--admin-muted)] mb-2 font-semibold">
             WE HACK 5.0 · DASHBOARD
           </p>
@@ -82,7 +77,7 @@ export default function Dashboard() {
             <>
               <h1 className="text-3xl font-bold text-[var(--admin-paper)] mb-3">
                 Welcome back,{" "}
-                <span style={{ color: "var(--admin-lime)" }}>
+                <span style={{ color: "var(--admin-pink)" }}>
                   {user.fullName?.split(" ")[0] ?? "Hacker"}
                 </span>{" "}
                 👋
@@ -113,8 +108,9 @@ export default function Dashboard() {
             to={action.to}
             className="group block rounded-xl border p-5 transition-all duration-200 hover:-translate-y-0.5"
             style={{
-              background: action.accent ? "rgba(220,255,145,0.05)" : "var(--admin-ink-soft)",
-              borderColor: action.accent ? "var(--admin-lime)" : "var(--admin-line)",
+              background: "var(--admin-ink-soft)",
+              borderColor: "var(--admin-line)",
+              boxShadow: action.accent ? "4px 4px 0 var(--admin-maroon)" : "none",
             }}
           >
             <div className="flex items-start gap-3">
@@ -122,7 +118,7 @@ export default function Dashboard() {
               <div>
                 <p
                   className="font-semibold text-sm mb-1 group-hover:text-[var(--admin-lime)] transition-colors"
-                  style={{ color: action.accent ? "var(--admin-lime)" : "var(--admin-paper)" }}
+                  style={{ color: action.accent ? "var(--admin-pink)" : "var(--admin-paper)" }}
                 >
                   {action.title} →
                 </p>
@@ -141,7 +137,7 @@ export default function Dashboard() {
           {announcements.length > 0 ? (
             <ul className="space-y-3">
               {announcements.slice(0, 4).map((a: any, i: number) => (
-                <li key={i} className="border-l-2 pl-3" style={{ borderColor: "var(--admin-lime)" }}>
+                <li key={i} className="border-l-2 pl-3" style={{ borderColor: "var(--admin-pink)" }}>
                   <p className="text-sm font-semibold text-[var(--admin-paper)]">{a.title}</p>
                   {a.body && (
                     <p className="text-xs text-[var(--admin-muted)] mt-0.5 line-clamp-2">{a.body}</p>
@@ -167,7 +163,7 @@ export default function Dashboard() {
                     <span className="text-sm text-[var(--admin-paper)]">{d.key ?? d.label}</span>
                     <span
                       className="text-xs font-mono"
-                      style={{ color: isPast ? "var(--admin-pink)" : "var(--admin-lime)" }}
+                      style={{ color: isPast ? "var(--admin-pink)" : "var(--admin-paper-dim)" }}
                     >
                       {due ? new Date(due).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }) : "TBD"}
                     </span>
