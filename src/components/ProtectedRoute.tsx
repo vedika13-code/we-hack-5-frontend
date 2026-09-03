@@ -12,7 +12,8 @@ export function ProtectedRoute({ roles }: { roles?: string[] }) {
       .catch(() => setStatus("denied"));
   }, [roles]);
 
-  if (status === "loading") return <div className="p-8 text-center text-slate-500">Loading…</div>;
+  if (status === "loading")
+    return <div className="p-8 text-center" style={{ color: "var(--wh-text-muted)" }}>Loading…</div>;
   if (status === "denied") return <Navigate to="/login" replace />;
   return <Outlet />;
 }

@@ -14,27 +14,27 @@ type RankStyle = {
 function getRankStyle(rank: number): RankStyle {
   if (rank === 1)
     return {
-      bg: "bg-gradient-to-br from-yellow-300 to-amber-400",
-      text: "text-yellow-900",
-      border: "border-amber-300",
+      bg: "bg-gradient-to-br from-[#efc66e] to-[#c9a24a]",
+      text: "text-[#2a1e05]",
+      border: "border-[#efc66e]",
       label: "🥇",
     };
   if (rank === 2)
     return {
-      bg: "bg-gradient-to-br from-slate-200 to-slate-300",
-      text: "text-[var(--admin-paper)]",
-      border: "border-slate-300",
+      bg: "bg-gradient-to-br from-[#cfccc2] to-[#a5a196]",
+      text: "text-[#1a1a17]",
+      border: "border-[#cfccc2]",
       label: "🥈",
     };
   if (rank === 3)
     return {
-      bg: "bg-gradient-to-br from-orange-200 to-orange-300",
-      text: "text-orange-800",
-      border: "border-orange-300",
+      bg: "bg-gradient-to-br from-[#c98b5b] to-[#a5673c]",
+      text: "text-[#241206]",
+      border: "border-[#c98b5b]",
       label: "🥉",
     };
   return {
-    bg: "bg-slate-100",
+    bg: "bg-[var(--admin-ink-soft)]",
     text: "text-[var(--admin-muted)]",
     border: "border-[var(--admin-line)]",
     label: "",
@@ -66,7 +66,7 @@ function MobileRankCard({ team, rank }: { team: any; rank: number }) {
     <div
       className={`rounded-xl border ${isTop3 ? style.border : "border-[var(--admin-line)]"} admin-card overflow-hidden ${isTop3 ? "shadow-sm" : ""} hover:shadow-md transition-shadow duration-200`}
     >
-      {isTop3 && <div className="h-1 w-full bg-gradient-to-r from-purple-500 to-violet-400" />}
+      {isTop3 && <div className="h-1 w-full bg-gradient-to-r from-[var(--admin-lime)] to-[var(--admin-pink)]" />}
       <div className="flex items-center gap-4 p-4">
         {/* Rank badge */}
         <div

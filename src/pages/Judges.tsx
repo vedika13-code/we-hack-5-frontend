@@ -94,7 +94,7 @@ function JudgeCard({ judge }: { judge: any }) {
   return (
     <div className="rounded-xl border border-[var(--admin-line)] admin-card hover:shadow-lg hover:border-[var(--admin-pink)] transition-all duration-200 flex flex-col overflow-hidden group">
       {/* Top accent strip */}
-      <div className="h-1 w-full bg-gradient-to-r from-purple-500 to-violet-400" />
+      <div className="h-1 w-full bg-gradient-to-r from-[var(--admin-lime)] to-[var(--admin-pink)]" />
 
       <div className="p-5 flex flex-col items-center text-center flex-1">
         <AvatarWithFallback src={judge.photoUrl} name={judge.name} size="lg" />
@@ -129,7 +129,7 @@ function JudgeCard({ judge }: { judge: any }) {
             href={judge.linkedin}
             target="_blank"
             rel="noreferrer"
-            className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-[var(--admin-pink)] hover:text-purple-800 transition-colors"
+            className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-[var(--admin-pink)] hover:text-[var(--admin-lime)] transition-colors"
           >
             <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path d="M20.447 20.452H17.21v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.985V9h3.102v1.561h.044c.432-.817 1.489-1.678 3.066-1.678 3.279 0 3.883 2.158 3.883 4.963v6.606zM5.337 7.433a1.8 1.8 0 1 1 0-3.6 1.8 1.8 0 0 1 0 3.6zM6.93 20.452H3.742V9H6.93v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.226.792 24 1.771 24h20.451C23.2 24 24 23.226 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
@@ -219,7 +219,7 @@ export default function Judges() {
                 placeholder="Search by name, company or expertise…"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full pl-9 pr-4 py-2.5 text-sm rounded-lg border border-[var(--admin-line)] admin-card focus:outline-none focus:ring-2 focus:ring-[var(--admin-lime)] focus:border-transparent placeholder-slate-400"
+                className="w-full pl-9 pr-4 py-2.5 text-sm rounded-lg border border-[var(--admin-line)] admin-card focus:outline-none focus:ring-2 focus:ring-[var(--admin-lime)] focus:border-transparent placeholder-[var(--admin-muted)]"
               />
             </div>
 
@@ -230,8 +230,8 @@ export default function Judges() {
                   onClick={() => setActiveChip(null)}
                   className={`text-xs font-semibold uppercase tracking-wide px-3 py-1 rounded border transition-colors ${
                     activeChip === null
-                      ? "bg-purple-600 text-white border-purple-600"
-                      : "admin-card text-[var(--admin-paper-dim)] border-slate-300 hover:border-purple-400 hover:text-[var(--admin-pink)]"
+                      ? "bg-[var(--admin-lime)] text-[var(--admin-ink)] border-[var(--admin-lime)]"
+                      : "admin-card text-[var(--admin-paper-dim)] border-[var(--admin-line)] hover:border-[var(--admin-lime)] hover:text-[var(--admin-pink)]"
                   }`}
                 >
                   All
@@ -242,8 +242,8 @@ export default function Judges() {
                     onClick={() => setActiveChip(chip === activeChip ? null : chip)}
                     className={`text-xs font-semibold uppercase tracking-wide px-3 py-1 rounded border transition-colors ${
                       activeChip === chip
-                        ? "bg-purple-600 text-white border-purple-600"
-                        : "admin-card text-[var(--admin-paper-dim)] border-slate-300 hover:border-purple-400 hover:text-[var(--admin-pink)]"
+                        ? "bg-[var(--admin-lime)] text-[var(--admin-ink)] border-[var(--admin-lime)]"
+                        : "admin-card text-[var(--admin-paper-dim)] border-[var(--admin-line)] hover:border-[var(--admin-lime)] hover:text-[var(--admin-pink)]"
                     }`}
                   >
                     {chip}

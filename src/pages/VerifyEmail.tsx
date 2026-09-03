@@ -49,27 +49,98 @@ export default function VerifyEmail() {
   }
 
   return (
-    <div className="max-w-sm mx-auto px-6 py-16">
-      <h1 className="text-2xl font-bold mb-6">Verify your email</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input className="w-full border rounded px-3 py-2" placeholder="Email"
-          value={email} onChange={(e) => setEmail(e.target.value)} />
-        <input className="w-full border rounded px-3 py-2" placeholder="6-digit OTP"
-          value={otp} onChange={(e) => setOtp(e.target.value)} />
-        {error && <p className="text-red-600 text-sm">{error}</p>}
-        {notice && <p className="text-green-700 text-sm">{notice}</p>}
-        <button className="w-full bg-slate-900 text-white rounded px-3 py-2">Verify</button>
-      </form>
-      <div className="text-xs text-slate-500 mt-4 text-center space-y-2">
-        <p>Didn't get the code? Check your spam/junk folder — it can take a minute to arrive.</p>
-        <button
-          type="button"
-          onClick={handleResend}
-          disabled={cooldown > 0}
-          className="underline disabled:no-underline disabled:opacity-60"
-        >
-          {cooldown > 0 ? `Resend code in ${cooldown}s` : "Resend code"}
-        </button>
+    <div className="min-h-[calc(100vh-64px)] flex items-center justify-center px-4">
+      <div className="w-full max-w-sm">
+        <div className="wh-card-accent">
+          <div className="mb-8">
+            <p className="text-xs tracking-widest uppercase font-semibold mb-2" style={{ color: "var(--wh-accent)" }}>
+              WE HACK 5.0
+            </p>
+            <h1 className="text-2xl font-bold font-display uppercase" style={{ color: "var(--wh-text-heading)" }}>
+              Verify your email
+            </h1>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label
+                className="block text-xs font-semibold uppercase tracking-wider mb-1.5"
+                style={{ color: "var(--wh-text-muted)" }}
+              >
+                Email
+              </label>
+              <input
+                className="wh-input"
+                placeholder="you@college.edu"
+                type="email"
+                autoComplete="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+
+            <div>
+              <label
+                className="block text-xs font-semibold uppercase tracking-wider mb-1.5"
+                style={{ color: "var(--wh-text-muted)" }}
+              >
+                6-digit code
+              </label>
+              <input
+                className="wh-input tracking-[0.3em]"
+                placeholder="000000"
+                inputMode="numeric"
+                value={otp}
+                onChange={(e) => setOtp(e.target.value)}
+              />
+            </div>
+
+            {error && (
+              <div
+                className="rounded-lg border px-3 py-2.5 text-sm"
+                style={{
+                  background: "rgba(248,113,113,0.08)",
+                  borderColor: "rgba(248,113,113,0.25)",
+                  color: "var(--wh-error)",
+                }}
+              >
+                {error}
+              </div>
+            )}
+            {notice && (
+              <div
+                className="rounded-lg border px-3 py-2.5 text-sm"
+                style={{
+                  background: "var(--wh-accent-dim)",
+                  borderColor: "var(--wh-border)",
+                  color: "var(--wh-accent)",
+                }}
+              >
+                {notice}
+              </div>
+            )}
+
+            <button type="submit" className="wh-btn w-full justify-center py-2.5 mt-2">
+              Verify
+            </button>
+          </form>
+
+          <div
+            className="mt-5 pt-5 border-t text-sm space-y-2"
+            style={{ borderColor: "var(--wh-border-muted)", color: "var(--wh-text-muted)" }}
+          >
+            <p>Didn't get the code? Check your spam/junk folder — it can take a minute.</p>
+            <button
+              type="button"
+              onClick={handleResend}
+              disabled={cooldown > 0}
+              className="font-semibold disabled:opacity-60"
+              style={{ color: "var(--wh-accent)" }}
+            >
+              {cooldown > 0 ? `Resend code in ${cooldown}s` : "Resend code"}
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
